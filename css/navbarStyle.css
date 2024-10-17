@@ -9,7 +9,7 @@
 }
 
 .navbar-toggler .navbar-toggler-icon {
-    background-image: url(/images/icons8-hamburger-button-50.png);
+    background-image: url(../images/icons8-hamburger-button-50.png);
 }
 
 .navbar-toggler-icon:hover {
