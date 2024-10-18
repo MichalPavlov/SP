@@ -1,7 +1,7 @@
 .reviews-container {
     display: flex;
     margin: 20px;
-    width: 100%;
+    width: auto;
     height: 240px;
 }
 .reviews-container .reviews-container-image {
@@ -12,5 +12,11 @@
 }
 .reviews-container-text {
     flex: 1;
+}
+
+@media screen and (max-width: 700px) {
+    .reviews-container-text  {
+        visibility: hidden;
+    }
 }
 
