@@ -4,12 +4,14 @@
     width: auto;
     height: 240px;
 }
+
 .reviews-container .reviews-container-image {
     object-fit: contain;
     width: auto;
     height: auto;
     margin-right: 20px;
 }
+
 .reviews-container-text {
     flex: 1;
 }
