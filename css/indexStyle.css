@@ -13,16 +13,16 @@ body {
 
 }
 
-.container {
+.search-bar {
     flex: 1;
     display: flex;
     justify-content: center;
     align-items: center;
 }
 
-.container .form-control {
-    width: 80%;
+.search-bar .form-control {
+    width: 70%;
+    height: 8%;
 }
-
 
 
