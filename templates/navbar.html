@@ -1,9 +1,13 @@
 <!-- upravený navbar z bootstrap-u https://getbootstrap.com/docs/5.3/components/navbar/ -->
 
+{% load static %}
+
+<link rel="stylesheet" href="{%static 'styles/navbarStyle.css'%}">
+
 <nav class="navbar fixed-top navbar-expand-lg bg-dark">
     <div class="container-fluid">
         <a class="navbar-brand" href="{% url 'index' %}">
-            <img class="navbar-brand-image" src="/images/home-white-icon.png" alt="logo">
+            <img class="navbar-brand-image" src="/static/images/home-white-icon.png" alt="logo">
         </a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
