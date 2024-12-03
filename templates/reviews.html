@@ -19,13 +19,30 @@
     <div class="part">
         <aside class="part-left"></aside>
         <main class="part-center">
-                
-                <a href = "{% url 'create-movieReview' %}">Create movie review</a>
+                <div class="createMovieReview">
+                    
+                    <a href = "{% url 'create-movieReview' %}">
+                        <button type="button" class="btn btn-secondary">Create movie review</button>
+                    </a>
+                </div>
                 {% for movie in movies %}
                 <div class="reviews-container">
-                    <a href="{% url 'update-movieReview' movie.id %}">Update</a>
-                    <a href="{% url 'delete-movieReview' movie.id %}">Delete</a>
-                    <h1>{{movie.id}} -- <a href="/movie/{{movie.id}}">{{movie.name}}</a></h1>
+                    <a href="/movie/{{movie.id}}">
+                        <img class="reviews-container-image" alt="Movie image" src="{{movie.image}}">  
+                    </a>
+                    <div class="reviews-container-text">
+                        <h3><p class="reviews-container-movie-name">{{movie.name}}</p></h3>
+                        <p class="reviews-container-movie-description">{{movie.description}}</p>
+                    </div>
+                    <!--<h1>{{movie.id}} -- <a href="/movie/{{movie.id}}">{{movie.name}}</a></h1>-->
+                    <div class="create-update">
+                        <a href="{% url 'update-movieReview' movie.id %}">
+                            <button type="button" class="btn btn-secondary">Update</button>
+                        </a>
+                        <a href="{% url 'delete-movieReview' movie.id %}">
+                            <button type="button" class="btn btn-secondary">Delete</button>
+                        </a>
+                    </div>
                 </div>
                 {% endfor %}
             

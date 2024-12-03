@@ -1,3 +1,10 @@
+body{
+    background-image: url('../images/pexels-tima-miroshnichenko-7991436.jpg');
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-attachment: fixed;
+}
+
 .reviews-container {
     display: flex;
     margin: 20px;
@@ -5,19 +12,44 @@
     height: 240px;
 }
 
+.createMovieReview {
+    margin: 20px;
+}
+
+.create-update {
+    display: flex;
+    flex-direction: column;
+}
+
 .reviews-container .reviews-container-image {
     object-fit: contain;
     width: auto;
-    height: auto;
+    height: 240px;
     margin-right: 20px;
+}
+
+.btn-secondary{
+    margin-bottom: 10px;
 }
 
 .reviews-container-text {
     flex: 1;
+    word-break: break-word;
+    margin-right: 10px;
 }
 
-@media screen and (max-width: 700px) {
-    .reviews-container-text  {
+.reviews-container-movie-name{
+    color: white;
+    font-family: Impact;
+}
+
+.reviews-container-movie-description{
+    color: white;
+    font-family: Georgia;
+}
+
+@media screen and (max-width: 550px) {
+    .reviews-container-text {
         visibility: hidden;
     }
 }

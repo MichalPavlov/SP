@@ -19,7 +19,7 @@
             <main class="part-center">
                 <form method="POST" action="">
                     {% csrf_token %}
-                    <p>Do you realy want to delete the movie review "{{object}}"?</p>
+                    <p>Do you realy want to delete the movie review "{{obj}}"?</p>
                     <a href="{{request.META.HTTP_REFERER}}">Return</a>
                     <input type="submit" value="Confirm"/>
                 </form>

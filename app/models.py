@@ -3,8 +3,9 @@ from django.db import models
 # Create your models here.
 
 class Movie(models.Model):
-    name = models.CharField(max_length=500)
-    description = models.TextField(null=True, blank=True)
+    name = models.CharField(max_length=100)
+    description = models.CharField(max_length=200)
+    image = models.CharField(max_length=500)
     #actors =
     #director =
     updated = models.DateTimeField(auto_now=True)

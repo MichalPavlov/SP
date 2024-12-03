@@ -29,8 +29,37 @@
     <script>
         document.getElementById('movieReviewForm').addEventListener(
             'submit', function(event) {
-                if(document.getElementById('id_name').value.length >= 500) {
-                    alert("Name can't be longer than 500 characters!");
+                var name = document.getElementById('id_name').value;
+                var description = document.getElementById('id_description').value;
+                var image = document.getElementById('id_image').value;
+
+                if(name.length === 0) {
+                    alert("Name can't be empty!");
+                    event.preventDefault();
+                }
+
+                if(description.length === 0) {
+                    alert("Description can't be empty!");
+                    event.preventDefault();
+                }
+
+                if(image.length === 0) {
+                    alert("Image url can't be empty!");
+                    event.preventDefault();
+                }
+
+                if(name.length >= 100) {
+                    alert("Name is too long!");
+                    event.preventDefault();
+                }
+
+                if(description.length >= 200) {
+                    alert("Description is too long");
+                    event.preventDefault();
+                }
+
+                if(image.length >= 500) {
+                    alert("Image url is too long");
                     event.preventDefault();
                 }
 
