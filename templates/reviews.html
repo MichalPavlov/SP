@@ -22,6 +22,7 @@
                 <div class="createMovieReview">
                     
                     <a href = "{% url 'create-movieReview' %}">
+                         <!--buttony z bootstrapu -->
                         <button type="button" class="btn btn-secondary">Create movie review</button>
                     </a>
                 </div>
@@ -34,7 +35,7 @@
                         <h3><p class="reviews-container-movie-name">{{movie.name}}</p></h3>
                         <p class="reviews-container-movie-description">{{movie.description}}</p>
                     </div>
-                    <!--<h1>{{movie.id}} -- <a href="/movie/{{movie.id}}">{{movie.name}}</a></h1>-->
+                   
                     <div class="create-update">
                         <a href="{% url 'update-movieReview' movie.id %}">
                             <button type="button" class="btn btn-secondary">Update</button>
