@@ -17,25 +17,17 @@
         <div class="part">
             <aside class="part-left"></aside>
             <main class="part-center">
-                <form id="movieReviewForm" method="POST" action="">
+                <form method="POST" action="">
                     {% csrf_token %}
-                    {{form.as_p}}
-                    <input type="submit" value="Submit"/>
+                    <p>Do you realy want to delete the movie review "{{object}}"?</p>
+                    <a href="{{request.META.HTTP_REFERER}}">Return</a>
+                    <input type="submit" value="Confirm"/>
                 </form>
             </main>
             <aside class="part-right"></aside>
         </div>
     </div>
-    <script>
-        document.getElementById('movieReviewForm').addEventListener(
-            'submit', function(event) {
-                if(document.getElementById('id_name').value.length >= 500) {
-                    alert("Name can't be longer than 500 characters!");
-                    event.preventDefault();
-                }
 
-            })
-    </script>
 
 
 </body>

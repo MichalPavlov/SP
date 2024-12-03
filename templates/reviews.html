@@ -19,10 +19,16 @@
     <div class="part">
         <aside class="part-left"></aside>
         <main class="part-center">
-            <div class="reviews-container">
+                
+                <a href = "{% url 'create-movieReview' %}">Create movie review</a>
                 {% for movie in movies %}
+                <div class="reviews-container">
+                    <a href="{% url 'update-movieReview' movie.id %}">Update</a>
+                    <a href="{% url 'delete-movieReview' movie.id %}">Delete</a>
                     <h1>{{movie.id}} -- <a href="/movie/{{movie.id}}">{{movie.name}}</a></h1>
+                </div>
                 {% endfor %}
+            
         </main>
         <aside class="part-right"></aside>
     </div>
