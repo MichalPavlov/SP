@@ -15,6 +15,9 @@ def reviews(request):
     movies = Movie.objects.all()
     return render(request, 'reviews.html', {'movies': movies})
 
+def movie(request, pk):
+     return render(request, 'movie.html')
+
 def createMovieReview(request):
         form = MovieReviewForm()
         if request.method == 'POST':
@@ -26,7 +29,23 @@ def createMovieReview(request):
         return render(request, 'reviews_form.html', {'form': form})
 
 def updateMovieReview(request, pk):
-     movieReview = Movie.objects.get(id=pk)
-     form = MovieReviewForm(initial=movieReview)
+    movieReview = Movie.objects.get(id=pk)
+    form = MovieReviewForm(instance=movieReview)
 
-     return render(request, 'reviews_form.html', {'form': form})
+    if request.method == 'POST':
+        form = MovieReviewForm(request.POST, instance=movieReview)
+        if form.is_valid():
+             form.save()
+             return redirect('reviews')
+
+    return render(request, 'reviews_form.html', {'form': form})
+
+def deleteMovieReview(request, pk):
+     movieReview = Movie.objects.get(id=pk)
+
+     if request.method == 'POST':
+          movieReview.delete()
+          return redirect('reviews')
+     return render(request, 'delete.html', {'obj':movieReview})
+    
+    

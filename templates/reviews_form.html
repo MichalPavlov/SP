@@ -17,7 +17,7 @@
         <div class="part">
             <aside class="part-left"></aside>
             <main class="part-center">
-                <form method="POST" action="">
+                <form id="movieReviewForm" method="POST" action="">
                     {% csrf_token %}
                     {{form.as_p}}
                     <input type="submit" value="Submit"/>
@@ -26,7 +26,45 @@
             <aside class="part-right"></aside>
         </div>
     </div>
+    <script>
+        document.getElementById('movieReviewForm').addEventListener(
+            'submit', function(event) {
+                var name = document.getElementById('id_name').value;
+                var description = document.getElementById('id_description').value;
+                var image = document.getElementById('id_image').value;
 
+                if(name.length === 0) {
+                    alert("Name can't be empty!");
+                    event.preventDefault();
+                }
+
+                if(description.length === 0) {
+                    alert("Description can't be empty!");
+                    event.preventDefault();
+                }
+
+                if(image.length === 0) {
+                    alert("Image url can't be empty!");
+                    event.preventDefault();
+                }
+
+                if(name.length >= 100) {
+                    alert("Name is too long!");
+                    event.preventDefault();
+                }
+
+                if(description.length >= 200) {
+                    alert("Description is too long");
+                    event.preventDefault();
+                }
+
+                if(image.length >= 500) {
+                    alert("Image url is too long");
+                    event.preventDefault();
+                }
+
+            })
+    </script>
 
 
 </body>
