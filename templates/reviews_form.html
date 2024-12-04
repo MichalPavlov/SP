@@ -17,10 +17,10 @@
         <div class="part">
             <aside class="part-left"></aside>
             <main class="part-center">
-                <form id="movieReviewForm" method="POST" action="">
+                <form id="movieReviewForm" method="POST" action=".">
                     {% csrf_token %}
                     {{form.as_p}}
-                    <input type="submit" value="Submit"/>
+                    <input type="submit" value="Submit">
                 </form>
             </main>
             <aside class="part-right"></aside>
