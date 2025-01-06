@@ -9,5 +9,6 @@ urlpatterns = [
     path('update-movieReview/<str:pk>/', views.updateMovieReview, name="update-movieReview"),
     path('delete-movieReview/<str:pk>/', views.deleteMovieReview, name="delete-movieReview"),
     path('movie/<str:pk>/', views.movie, name="movie"),
+    path('login/', views.login_page, name="login_page"),
 ]
 

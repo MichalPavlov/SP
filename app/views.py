@@ -15,6 +15,9 @@ def reviews(request):
     movies = Movie.objects.all()
     return render(request, 'reviews.html', {'movies': movies})
 
+def login_page(request):
+    return render(request, 'login_page.html')
+
 def movie(request, pk):
      return render(request, 'movie.html')
 
