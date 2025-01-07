@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
-from .models import Movie
+from .models import Actor, Director, Movie
 from .forms import MovieReviewForm
 
 
@@ -14,6 +14,14 @@ def about(request):
 def movies_list(request):
     movies = Movie.objects.all()
     return render(request, 'movies_list.html', {'movies': movies})
+
+def actors_list(request):
+    actors = Actor.objects.all()
+    return render(request, 'actors_list.html', {'actors': actors})
+
+def directors_list(request):
+    directors = Director.objects.all()
+    return render(request, 'directors_list.html', {'directors': directors})
 
 def login_page(request):
     error = None
@@ -61,7 +69,7 @@ def register(request):
 def movie(request, pk):
      return render(request, 'movie.html')
 
-def createMovieReview(request):
+def createMovieForm(request):
         form = MovieReviewForm()
         if request.method == 'POST':
              form = MovieReviewForm(request.POST)
@@ -69,7 +77,8 @@ def createMovieReview(request):
                   form.save()
                   return redirect('movies_list')
                 
-        return render(request, 'reviews_form.html', {'form': form})
+        return render(request, 'movie_create_form.html', {'form': form})
+
 
 def updateMovieReview(request, pk):
     movieReview = Movie.objects.get(id=pk)

@@ -1,0 +1,18 @@
+{% extends 'lists.html' %}
+{% block content %}
+    <div class="addNew">
+            <!--buttony z bootstrapu -->
+        <a href = "{% url 'movie-create-form' %}" class="btn btn-secondary">Add new director</a>
+    </div>
+    {% for director in directors %}
+    <div class="list-container">
+        <a href="/actor/{{director.id}}">
+            <img class="list-container-image" alt="Image" src="{{director.picture}}">  
+        </a>
+        <div class="list-container-text">
+            <h3 class="list-container-name">{{director.name}}</h3>
+            <p class="list-container-description">{{director.description}}</p>
+        </div>
+    </div>
+    {% endfor %}
+{% endblock %}

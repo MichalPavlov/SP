@@ -1,0 +1,55 @@
+body{
+    background-image: url('../images/pexels-tima-miroshnichenko-7991436.jpg');
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-attachment: fixed;
+}
+
+.list-container {
+    display: flex;
+    margin: 20px;
+    width: auto;
+    height: 240px;
+}
+
+.addNew {
+    margin: 20px;
+}
+
+.create-update {
+    display: flex;
+    flex-direction: column;
+}
+
+.list-container .list-container-image {
+    object-fit: contain;
+    width: auto;
+    height: 240px;
+    margin-right: 20px;
+}
+
+.btn-secondary{
+    margin-bottom: 10px;
+}
+
+.list-container-text {
+    flex: 1;
+    word-break: break-word;
+    margin-right: 10px;
+}
+
+.list-container-name{
+    color: white;
+    font-family: Impact;
+}
+
+.list-container-description{
+    color: white;
+    font-family: Georgia;
+}
+
+@media screen and (max-width: 550px) {
+    .list-container-text {
+        visibility: hidden;
+    }
+}
