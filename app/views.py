@@ -20,7 +20,7 @@ def reviews(request):
 def login_page(request):
     error = None
     if request.method == 'POST':
-        username = request.POST.get('username')
+        username = request.POST.get('username').lower()
         password = request.POST.get('password')
 
         user = authenticate(request, username=username, password=password)
@@ -36,6 +36,26 @@ def login_page(request):
 def logout_user(request):
      logout(request)
      return redirect('index')
+
+def register(request):
+     error = None
+
+     if request.method == 'POST':
+        username = request.POST.get('username').lower()
+        password = request.POST.get('password')
+        password_again = request.POST.get('password-again')
+
+        if password != password_again:
+            error = "Passwords do not match"
+            return render(request, 'register_page.html', {'error': error})
+        
+        if User.objects.filter(username=username).exists():
+            error = "Username is already taken"
+            return render(request, 'register_page.html', {'error': error})
+        
+        user = User.objects.create_user(username=username, password=password)
+        return redirect('login')
+     return render(request, 'register_page.html', {'error': error})
 
 def movie(request, pk):
      return render(request, 'movie.html')

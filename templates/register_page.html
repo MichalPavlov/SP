@@ -37,11 +37,15 @@
                                 <label for="password" class="form-label">Password</label>
                                 <input type="password" class="form-control" name="password" placeholder="Enter your password">
                             </div>
-                            <button type="submit" class="btn btn-primary w-100">Login</button>
+                            <div class="mb-4">
+                                <label for="password" class="form-label">Password again</label>
+                                <input type="password" class="form-control" name="password-again" placeholder="Enter your password again">
+                            </div>
+                            <button type="submit" class="btn btn-primary w-100">Register</button>
                         </form>
                         <div class="text-center mt-3">
-                            <p>Not part of our group yet?</p>
-                            <a href="{% url 'register' %}" class="btn btn-success">Register</a>
+                            <p>Already registered?</p>
+                            <a href="{% url 'login' %}" class="btn btn-success">Login</a>
                         </div>
 
                     </div>
