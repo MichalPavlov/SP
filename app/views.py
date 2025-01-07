@@ -3,8 +3,6 @@ from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
 from .models import Movie
 from .forms import MovieReviewForm
-# Create your views here.
-
 
 
 def index(request):
@@ -13,9 +11,9 @@ def index(request):
 def about(request):
     return render(request, 'about.html')
 
-def reviews(request):
+def movies_list(request):
     movies = Movie.objects.all()
-    return render(request, 'reviews.html', {'movies': movies})
+    return render(request, 'movies_list.html', {'movies': movies})
 
 def login_page(request):
     error = None
@@ -42,8 +40,11 @@ def register(request):
 
      if request.method == 'POST':
         username = request.POST.get('username').lower()
+        email = request.POST.get('email')
         password = request.POST.get('password')
         password_again = request.POST.get('password-again')
+        
+        #daco s emailom
 
         if password != password_again:
             error = "Passwords do not match"
@@ -53,7 +54,7 @@ def register(request):
             error = "Username is already taken"
             return render(request, 'register_page.html', {'error': error})
         
-        user = User.objects.create_user(username=username, password=password)
+        user = User.objects.create_user(username=username, password=password, email=email)
         return redirect('login')
      return render(request, 'register_page.html', {'error': error})
 
@@ -66,7 +67,7 @@ def createMovieReview(request):
              form = MovieReviewForm(request.POST)
              if form.is_valid():
                   form.save()
-                  return redirect('reviews')
+                  return redirect('movies_list')
                 
         return render(request, 'reviews_form.html', {'form': form})
 
