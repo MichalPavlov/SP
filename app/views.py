@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
-from .models import Actor, Director, Movie
+from .models import MoviePeople, Movie
 from .forms import MovieReviewForm
 
 
@@ -13,14 +13,19 @@ def about(request):
 
 def movies_list(request):
     movies = Movie.objects.all()
-    return render(request, 'movies_list.html', {'movies': movies})
+    list = {
+        'contents': movies,
+        'type': 'movie',
+        'create_form': 'movie-create-form',
+    }
+    return render(request, 'lists.html', {'list': list})	
 
 def actors_list(request):
-    actors = Actor.objects.all()
+    actors = MoviePeople.objects.all()
     return render(request, 'actors_list.html', {'actors': actors})
 
 def directors_list(request):
-    directors = Director.objects.all()
+    directors = MoviePeople.objects.all()
     return render(request, 'directors_list.html', {'directors': directors})
 
 def login_page(request):

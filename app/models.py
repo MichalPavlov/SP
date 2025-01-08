@@ -1,35 +1,27 @@
 from django.db import models
 from django.contrib.auth.models import User
 
-class Actor(models.Model):
+class MoviePeople(models.Model):
     name = models.CharField(max_length=100)
     picture = models.URLField(max_length=500, null=True, blank=True)
     description = models.TextField(max_length=500, null=True, blank=True)
     birth_date = models.DateField(null=True, blank=True)
+    director = models.BooleanField(default=False)
+    actor = models.BooleanField(default=False)
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
 
     def __str__(self):
         return self.name
 
-class Director(models.Model):
-    name = models.CharField(max_length=100)
-    picture = models.URLField(max_length=500, null=True, blank=True)
-    description = models.TextField(max_length=500, null=True, blank=True)
-    birth_date = models.DateField(null=True, blank=True)
-    created = models.DateTimeField(auto_now_add=True)
-    updated = models.DateTimeField(auto_now=True)
-
-    def __str__(self):
-        return self.name
 
 class Movie(models.Model):
-    title = models.CharField(max_length=100)
+    name = models.CharField(max_length=100)
     picture = models.URLField(max_length=500, null=True, blank=True)
     description = models.TextField(max_length=500, null=True, blank=True)
     release_date = models.DateField()
-    director = models.ForeignKey(Director, on_delete=models.CASCADE, related_name='movies')
-    actors = models.ManyToManyField(Actor, related_name='movies')
+    director = models.ForeignKey(MoviePeople, on_delete=models.CASCADE, related_name='movies_played_in')
+    actors = models.ManyToManyField(MoviePeople, related_name='movies_directed')
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
 
@@ -70,4 +62,4 @@ class ReviewVote(models.Model):
         unique_together = ['review', 'user']
 
     def __str__(self):
-        return f'{self.review.movie.title} - {self.review.user.username} - {self.value}'
+        return f'{self.review.movie.title} - {self.review.user.username} - {self.vote}'

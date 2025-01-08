@@ -16,11 +16,6 @@ body{
     margin: 20px;
 }
 
-.create-update {
-    display: flex;
-    flex-direction: column;
-}
-
 .list-container .list-container-image {
     object-fit: contain;
     width: auto;
@@ -28,7 +23,7 @@ body{
     margin-right: 20px;
 }
 
-.btn-secondary{
+.btn-secondary {
     margin-bottom: 10px;
 }
 
@@ -38,12 +33,12 @@ body{
     margin-right: 10px;
 }
 
-.list-container-name{
+.list-container-name {
     color: white;
     font-family: Impact;
 }
 
-.list-container-description{
+.list-container-description {
     color: white;
     font-family: Georgia;
 }

@@ -19,9 +19,21 @@
     <div class="part">
         <aside class="part-left"></aside>
         <main class="part-center">
-            {% block content %}
-
-            {% endblock %}
+            <div class="addNew">
+                    <!--buttony z bootstrapu -->
+                <a href = "{% url list.create_form %}" class="btn btn-secondary">Add new {{list.type}}</a>
+            </div>
+            {% for content in contents %}
+            <div class="list-container">
+                <a href="/{{list.type}}/{{content.id}}">
+                    <img class="list-container-image" alt="Image" src="{{content.picture}}">  
+                </a>
+                <div class="list-container-text">
+                    <h3 class="list-container-name">{{content.name}}</h3>
+                    <p class="list-container-description">{{content.description}}</p>
+                </div>
+            </div>
+            {% endfor %}
         </main>
         <aside class="part-right"></aside>
     </div>
