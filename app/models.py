@@ -20,6 +20,7 @@ class MoviePerson(models.Model):
 class Movie(models.Model):
     name = models.CharField(max_length=100)
     picture = models.URLField(max_length=500, null=True, blank=True)
+    genre = models.CharField(max_length=100)
     description = models.TextField(max_length=500, null=True, blank=True)
     release_date = models.DateField()
     director = models.ForeignKey(MoviePerson, on_delete=models.CASCADE, related_name='movies_played_in')
