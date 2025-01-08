@@ -1,7 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
 
-class MoviePeople(models.Model):
+class MoviePerson(models.Model):
     name = models.CharField(max_length=100)
     picture = models.URLField(max_length=500, null=True, blank=True)
     description = models.TextField(max_length=500, null=True, blank=True)
@@ -20,8 +20,8 @@ class Movie(models.Model):
     picture = models.URLField(max_length=500, null=True, blank=True)
     description = models.TextField(max_length=500, null=True, blank=True)
     release_date = models.DateField()
-    director = models.ForeignKey(MoviePeople, on_delete=models.CASCADE, related_name='movies_played_in')
-    actors = models.ManyToManyField(MoviePeople, related_name='movies_directed')
+    director = models.ForeignKey(MoviePerson, on_delete=models.CASCADE, related_name='movies_played_in')
+    actors = models.ManyToManyField(MoviePerson, related_name='movies_directed')
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
 

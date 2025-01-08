@@ -1,8 +1,9 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
-from .models import MoviePeople, Movie
-from .forms import MovieReviewForm
+from .models import MoviePerson, Movie
+from .forms import MovieForm
+from .forms import MoviePersonForm
 
 
 def index(request):
@@ -18,26 +19,32 @@ def movies_list(request):
         'type': 'movie',
         'url': 'movie',
         'create_form': 'movie-create-form',
+        'update_form': 'update-movie-form',
+        'delete_form': 'delete-movie-form',
     }
     return render(request, 'lists.html', {'list': list})	
 
 def actors_list(request):
-    actors = MoviePeople.objects.filter(actor=True)
+    actors = MoviePerson.objects.filter(actor=True)
     list = {
         'contents': actors,
         'type': 'actor',
         'url': 'movie_star',    
-        'create_form': 'movie-create-form',
+        'create_form': 'movie_person-create-form',
+        'update_form': 'update-movie_person-form',
+        'delete_form': 'delete-movie_person-form',
     }
     return render(request, 'lists.html', {'list': list})
 
 def directors_list(request):
-    directors = MoviePeople.objects.filter(director=True)
+    directors = MoviePerson.objects.filter(director=True)
     list = {
         'contents': directors,
         'type': 'dirrector',
         'url': 'movie_star',
-        'create_form': 'movie-create-form',
+        'create_form': 'movie_person-create-form',
+        'update_form': 'update-movie_person-form',
+        'delete_form': 'delete-movie_person-form',
     }
     return render(request, 'lists.html', {'list': list})
 
@@ -88,32 +95,54 @@ def movie(request, pk):
      return render(request, 'movie.html')
 
 def createMovieForm(request):
-        form = MovieReviewForm()
+        form = MovieForm()
         if request.method == 'POST':
-             form = MovieReviewForm(request.POST)
+             form = MovieForm(request.POST)
              if form.is_valid():
                   form.save()
                   return redirect('movies_list')             
-        return render(request, 'create_form.html', {'form': form})
+        return render(request, 'movie_create_form.html', {'form': form})
 
 
 def updateMovieReview(request, pk):
     movieReview = Movie.objects.get(id=pk)
-    form = MovieReviewForm(instance=movieReview)
-
+    form = MovieForm(instance=movieReview)
     if request.method == 'POST':
-        form = MovieReviewForm(request.POST, instance=movieReview)
+        form = MovieForm(request.POST, instance=movieReview)
         if form.is_valid():
              form.save()
              return redirect('movies_list')
-    return render(request, 'create_form.html', {'form': form})
+    return render(request, 'movie_create_form.html', {'form': form})
 
 def deleteMovieReview(request, pk):
      movieReview = Movie.objects.get(id=pk)
-
      if request.method == 'POST':
           movieReview.delete()
           return redirect('movies_list')
      return render(request, 'delete.html', {'obj':movieReview})
     
-    
+def createMoviePersonForm(request):
+    form = MoviePersonForm()
+    if request.method == 'POST':
+            form = MoviePersonForm(request.POST)
+            if form.is_valid():
+                form.save()
+                return redirect('actors_list')             
+    return render(request, 'movie_person_create_form.html', {'form': form})
+   
+def updateMoviePerson(request, pk):
+    moviePerson = MoviePerson.objects.get(id=pk)
+    form = MoviePersonForm(instance=moviePerson)
+    if request.method == 'POST':
+        form = MoviePersonForm(request.POST, instance=moviePerson)
+        if form.is_valid():
+             form.save()
+             return redirect('actors_list')
+    return render(request, 'movie_person_create_form.html', {'form': form})
+
+def deleteMoviePerson(request, pk):
+    moviePerson = MoviePerson.objects.get(id=pk)
+    if request.method == 'POST':
+        moviePerson.delete()
+        return redirect('actors_list')
+    return render(request, 'delete.html', {'obj':moviePerson})
