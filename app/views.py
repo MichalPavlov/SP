@@ -93,9 +93,8 @@ def createMovieForm(request):
              form = MovieReviewForm(request.POST)
              if form.is_valid():
                   form.save()
-                  return redirect('movies_list')
-                
-        return render(request, 'movie_create_form.html', {'form': form})
+                  return redirect('movies_list')             
+        return render(request, 'create_form.html', {'form': form})
 
 
 def updateMovieReview(request, pk):
@@ -107,8 +106,7 @@ def updateMovieReview(request, pk):
         if form.is_valid():
              form.save()
              return redirect('movies_list')
-
-    return render(request, 'movie_create_form.html', {'form': form})
+    return render(request, 'create_form.html', {'form': form})
 
 def deleteMovieReview(request, pk):
      movieReview = Movie.objects.get(id=pk)
