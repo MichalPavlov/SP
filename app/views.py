@@ -16,17 +16,30 @@ def movies_list(request):
     list = {
         'contents': movies,
         'type': 'movie',
+        'url': 'movie',
         'create_form': 'movie-create-form',
     }
     return render(request, 'lists.html', {'list': list})	
 
 def actors_list(request):
-    actors = MoviePeople.objects.all()
-    return render(request, 'actors_list.html', {'actors': actors})
+    actors = MoviePeople.objects.filter(actor=True)
+    list = {
+        'contents': actors,
+        'type': 'actor',
+        'url': 'movie_star',    
+        'create_form': 'movie-create-form',
+    }
+    return render(request, 'lists.html', {'list': list})
 
 def directors_list(request):
-    directors = MoviePeople.objects.all()
-    return render(request, 'directors_list.html', {'directors': directors})
+    directors = MoviePeople.objects.filter(director=True)
+    list = {
+        'contents': directors,
+        'type': 'dirrector',
+        'url': 'movie_star',
+        'create_form': 'movie-create-form',
+    }
+    return render(request, 'lists.html', {'list': list})
 
 def login_page(request):
     error = None

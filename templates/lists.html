@@ -25,12 +25,16 @@
             </div>
             {% for content in contents %}
             <div class="list-container">
-                <a href="/{{list.type}}/{{content.id}}">
+                <a href="/{{list.url}}/{{content.id}}">
                     <img class="list-container-image" alt="Image" src="{{content.picture}}">  
                 </a>
                 <div class="list-container-text">
                     <h3 class="list-container-name">{{content.name}}</h3>
                     <p class="list-container-description">{{content.description}}</p>
+                </div>
+                <div class="create-update">
+                    <a href="{% url 'update-movieReview' movie.id %}" class="btn btn-secondary">Update</a>
+                    <a href="{% url 'delete-movieReview' movie.id %}" class="btn btn-secondary">Delete</a>
                 </div>
             </div>
             {% endfor %}
