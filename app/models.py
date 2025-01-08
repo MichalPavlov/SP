@@ -26,7 +26,7 @@ class Movie(models.Model):
     updated = models.DateTimeField(auto_now=True)
 
     def __str__(self):
-        return self.title
+        return self.name
 
 class Review(models.Model):
     movie = models.ForeignKey(Movie, on_delete=models.CASCADE, related_name='reviews')
