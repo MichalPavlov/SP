@@ -29,7 +29,7 @@ def actors_list(request):
     list = {
         'contents': actors,
         'type': 'actor',
-        'url': 'movie_star',    
+        'url': 'movie_person',    
         'create_form': 'movie_person-create-form',
         'update_form': 'update-movie_person-form',
         'delete_form': 'delete-movie_person-form',
@@ -41,7 +41,7 @@ def directors_list(request):
     list = {
         'contents': directors,
         'type': 'dirrector',
-        'url': 'movie_star',
+        'url': 'movie_person',
         'create_form': 'movie_person-create-form',
         'update_form': 'update-movie_person-form',
         'delete_form': 'delete-movie_person-form',
@@ -94,32 +94,43 @@ def register(request):
 def movie(request, pk):
      return render(request, 'movie.html')
 
-def createMovieForm(request):
-        form = MovieForm()
-        if request.method == 'POST':
-             form = MovieForm(request.POST)
-             if form.is_valid():
-                  form.save()
-                  return redirect('movies_list')             
-        return render(request, 'movie_create_form.html', {'form': form})
+def movie_person(request, pk):
+    person = MoviePerson.objects.get(id=pk)
+    movies_played_in = Movie.objects.filter(actors=person)
+    movies_directed = Movie.objects.filter(director=person)
+    list = {
+        'person': person,
+        'movies_played_in': movies_played_in,
+        'movies_directed': movies_directed,
+    }
+    return render(request, 'movie_person.html', {'list': list})
 
-
-def updateMovieReview(request, pk):
-    movieReview = Movie.objects.get(id=pk)
-    form = MovieForm(instance=movieReview)
+def createMovie(request):
+    form = MovieForm()
     if request.method == 'POST':
-        form = MovieForm(request.POST, instance=movieReview)
+            form = MovieForm(request.POST)
+            if form.is_valid():
+                form.save()
+                return redirect('movies_list')             
+    return render(request, 'movie_create_form.html', {'form': form})
+
+
+def updateMovie(request, pk):
+    movie = Movie.objects.get(id=pk)
+    form = MovieForm(instance=movie)
+    if request.method == 'POST':
+        form = MovieForm(request.POST, instance=movie)
         if form.is_valid():
              form.save()
              return redirect('movies_list')
     return render(request, 'movie_create_form.html', {'form': form})
 
-def deleteMovieReview(request, pk):
-     movieReview = Movie.objects.get(id=pk)
+def deleteMovie(request, pk):
+     movie = Movie.objects.get(id=pk)
      if request.method == 'POST':
-          movieReview.delete()
+          movie.delete()
           return redirect('movies_list')
-     return render(request, 'delete.html', {'obj':movieReview})
+     return render(request, 'delete.html', {'obj':movie})
     
 def createMoviePersonForm(request):
     form = MoviePersonForm()
