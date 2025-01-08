@@ -16,6 +16,11 @@ body{
     margin: 20px;
 }
 
+.update-delete {
+    display: flex;
+    flex-direction: column;
+}
+
 .list-container .list-container-image {
     object-fit: contain;
     width: auto;

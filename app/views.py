@@ -106,16 +106,16 @@ def updateMovieReview(request, pk):
         form = MovieReviewForm(request.POST, instance=movieReview)
         if form.is_valid():
              form.save()
-             return redirect('reviews')
+             return redirect('movies_list')
 
-    return render(request, 'reviews_form.html', {'form': form})
+    return render(request, 'movie_create_form.html', {'form': form})
 
 def deleteMovieReview(request, pk):
      movieReview = Movie.objects.get(id=pk)
 
      if request.method == 'POST':
           movieReview.delete()
-          return redirect('reviews')
+          return redirect('movies_list')
      return render(request, 'delete.html', {'obj':movieReview})
     
     
