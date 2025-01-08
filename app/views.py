@@ -92,7 +92,13 @@ def register(request):
      return render(request, 'register_page.html', {'error': error})
 
 def movie(request, pk):
-     return render(request, 'movie.html')
+    movie = Movie.objects.get(id=pk)
+    reviews = Movie.objects.get(id=pk).reviews.all()
+    list = {
+        'movie': movie,
+        'reviews': reviews,
+    }
+    return render(request, 'movie.html', {'list': list})
 
 def movie_person(request, pk):
     person = MoviePerson.objects.get(id=pk)

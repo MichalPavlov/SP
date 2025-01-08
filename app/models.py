@@ -43,7 +43,7 @@ class Review(models.Model):
         unique_together = ['movie', 'user']
 
     def __str__(self):
-        return f'{self.movie.title} - {self.user.username}'
+        return f'{self.movie.name} - {self.user.username}'
     
     def like_score(self):
         return self.votes.filter(vote=ReviewVote.LIKE).count() - self.votes.filter(vote=ReviewVote.DISLIKE).count()

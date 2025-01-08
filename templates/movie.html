@@ -2,5 +2,15 @@
 
 {% block content %}
 
+<img src="{{list.movie.picture}}" alt="Image">
+<h1>{{list.movie.name}}</h1>
+<p>Director: {{list.movie.director.name}}</p>
+{% for actor in list.movie.actors.all %}
+<p>{{actor.name}}</p>
+{% endfor %}
+
+{% for review in list.movie.reviews.all %}
+<p>{{review.comment}}</p>
+{% endfor %}
 
 {% endblock %}

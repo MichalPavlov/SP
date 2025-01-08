@@ -2,5 +2,13 @@
 
 {% block content %}
 
+<div>
+    <h1>{{list.person.name}}</h1>
+    <img src="{{list.person.picture}}" alt="Image">
+    <h2>{{list.person.description}}</h2>
+    {% for movie in list.movies_played_in %}
+    <p>{{movie.name}}</p>
+    {% endfor %}
+</div>
 
 {% endblock %}

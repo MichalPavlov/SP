@@ -19,10 +19,12 @@
     <div class="part">
         <aside class="part-left"></aside>
         <main class="part-center">
+            
             <div class="addNew">
                 <!--buttony z bootstrapu -->
                 <a href = "{% url list.create_form %}" class="btn btn-secondary">Add new {{list.type}}</a>
             </div>
+            
             {% for content in list.contents %}
             <div class="list-container">
                 <a href="/{{list.url}}/{{content.id}}">
