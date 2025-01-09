@@ -1,9 +1,8 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
-from .models import MoviePerson, Movie
-from .forms import MovieForm
-from .forms import MoviePersonForm
+from .models import MoviePerson, Movie, Review
+from .forms import MovieForm, ReviewForm, MoviePersonForm
 
 
 def index(request):
@@ -114,10 +113,10 @@ def movie_person(request, pk):
 def createMovie(request):
     form = MovieForm()
     if request.method == 'POST':
-            form = MovieForm(request.POST)
-            if form.is_valid():
-                form.save()
-                return redirect('movies_list')             
+        form = MovieForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('movies_list')             
     return render(request, 'movie_create_form.html', {'form': form})
 
 
@@ -163,3 +162,33 @@ def deleteMoviePerson(request, pk):
         moviePerson.delete()
         return redirect('actors_list')
     return render(request, 'delete.html', {'obj':moviePerson})
+
+def createReview(request, pk):
+    form = ReviewForm()
+    movie = Movie.objects.get(id=pk)
+    if request.method == 'POST':
+        form = ReviewForm(request.POST)
+        if form.is_valid():
+            review = form.save(commit=False)
+            review.movie = movie
+            review.save()
+            return redirect('movie', pk=pk)
+    return render(request, 'create_review.html', {'form': form, 'movie': movie})
+
+def updateReview(request, pk):
+    review = Review.objects.get(id=pk)
+    form = ReviewForm(instance=review)
+    if request.method == 'POST':
+        form = ReviewForm(request.POST, instance=review)
+        if form.is_valid():
+            form.save()
+            return redirect('movie', pk=review.movie.id)
+    return render(request, 'update_review.html', {'form': form, 'review': review})
+
+def deleteReview(request, pk):
+    review = Review.objects.get(id=pk)
+    if request.method == 'POST':
+        review.delete()
+        return redirect('movie', pk=review.movie.id)
+    return render(request, 'delete.html', {'obj': review})
+
