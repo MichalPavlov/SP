@@ -22,8 +22,9 @@ body{
 }
 
 .list-container .list-container-image {
-    object-fit: contain;
-    width: auto;
+    object-fit: cover;
+    overflow: hidden;
+    width: 160px;
     height: 240px;
     margin-right: 20px;
 }

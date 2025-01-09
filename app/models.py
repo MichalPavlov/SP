@@ -16,15 +16,15 @@ class MoviePerson(models.Model):
         return self.name
     
 
-
 class Movie(models.Model):
     name = models.CharField(max_length=100)
     picture = models.URLField(max_length=500, null=True, blank=True)
     genre = models.CharField(max_length=100)
     description = models.TextField(max_length=500, null=True, blank=True)
     release_date = models.DateField()
+    length = models.IntegerField(null=True, blank=True)
     director = models.ForeignKey(MoviePerson, on_delete=models.CASCADE, null=True, blank=True, related_name='movies_played_in')
-    actors = models.ManyToManyField(MoviePerson, related_name='movies_directed')
+    actors = models.ManyToManyField(MoviePerson, null=True, blank=True, related_name='movies_directed')
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
 
