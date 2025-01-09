@@ -2,4 +2,11 @@
 
 {% block content %}
 {{form.as_p}}
+<input type="submit" value="Submit">
+{% if movie %}
+    <a href="{% url 'movie' pk=movie.id %}">Return</a>
+{% else %}
+    <a href="{% url 'movie' pk=review.movie.id %}">Return</a>
+{% endif %}
+
 {% endblock %}

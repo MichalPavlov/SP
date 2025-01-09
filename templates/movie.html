@@ -9,8 +9,21 @@
 <p>{{actor.name}}</p>
 {% endfor %}
 
-{% for review in list.movie.reviews.all %}
+
+
+<!--buttony z bootstrapu -->
+<div class="addNew">
+    <a href = "{% url 'review-create-form' pk=list.movie.id %}" class="btn btn-secondary">Add new review</a>
+</div>
+
+{% for review in list.reviews %}
 <p>{{review.comment}}</p>
+<div class="list-container">
+    <div class="update-delete">
+        <a href="{% url 'update-review-form' review.id %}" class="btn btn-secondary">Update</a>
+        <a href="{% url 'delete-review-form' review.id %}" class="btn btn-secondary">Delete</a>
+    </div>
+</div>
 {% endfor %}
 
 {% endblock %}

@@ -16,4 +16,4 @@ class MoviePersonForm(ModelForm):
 class ReviewForm(ModelForm):
     class Meta:
         model = Review
-        fields = '__all__'
+        fields = ['rating', 'comment']

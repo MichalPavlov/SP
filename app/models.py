@@ -23,7 +23,7 @@ class Movie(models.Model):
     genre = models.CharField(max_length=100)
     description = models.TextField(max_length=500, null=True, blank=True)
     release_date = models.DateField()
-    director = models.ForeignKey(MoviePerson, on_delete=models.CASCADE, related_name='movies_played_in')
+    director = models.ForeignKey(MoviePerson, on_delete=models.CASCADE, null=True, blank=True, related_name='movies_played_in')
     actors = models.ManyToManyField(MoviePerson, related_name='movies_directed')
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
@@ -40,13 +40,13 @@ class Review(models.Model):
     updated = models.DateTimeField(auto_now=True)
 
     class Meta:
-        unique_together = ['movie', 'user']
+        unique_together = ['movie', 'user'] 
 
     def __str__(self):
         return f'{self.movie.name} - {self.user.username}'
     
-    def like_score(self):
-        return self.votes.filter(vote=ReviewVote.LIKE).count() - self.votes.filter(vote=ReviewVote.DISLIKE).count()
+    #def like_score(self):
+    #    return self.reviewvote_set.filter(vote=ReviewVote.LIKE).count() - self.reviewvote_set.filter(vote=ReviewVote.DISLIKE).count()
     
 class ReviewVote(models.Model):
     LIKE = 1
@@ -65,4 +65,4 @@ class ReviewVote(models.Model):
         unique_together = ['review', 'user']
 
     def __str__(self):
-        return f'{self.review.movie.title} - {self.review.user.username} - {self.vote}'
+        return f'{self.review.movie.name} - {self.review.user.username} - {self.vote}'

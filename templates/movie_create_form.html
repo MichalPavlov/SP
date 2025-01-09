@@ -2,4 +2,6 @@
 
 {% block content %}
 {{form.as_p}}
+<input type="submit" value="Submit">
+<a href="{{request.META.HTTP_REFERER}}">Return</a>
 {% endblock %}

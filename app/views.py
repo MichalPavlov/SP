@@ -169,11 +169,15 @@ def createReview(request, pk):
     if request.method == 'POST':
         form = ReviewForm(request.POST)
         if form.is_valid():
-            review = form.save(commit=False)
-            review.movie = movie
-            review.save()
-            return redirect('movie', pk=pk)
-    return render(request, 'create_review.html', {'form': form, 'movie': movie})
+            try:
+                review = form.save(commit=False)
+                review.movie = movie
+                review.user = request.user
+                review.save()
+                return redirect('movie', pk=pk)
+            except:
+                form.add_error(None, 'You have already submited a review for this movie')
+    return render(request, 'review_create_form.html', {'form': form, 'movie': movie})
 
 def updateReview(request, pk):
     review = Review.objects.get(id=pk)
@@ -183,7 +187,7 @@ def updateReview(request, pk):
         if form.is_valid():
             form.save()
             return redirect('movie', pk=review.movie.id)
-    return render(request, 'update_review.html', {'form': form, 'review': review})
+    return render(request, 'review_create_form.html', {'form': form, 'review': review})
 
 def deleteReview(request, pk):
     review = Review.objects.get(id=pk)
