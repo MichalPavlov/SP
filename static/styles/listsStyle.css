@@ -1,15 +1,11 @@
-body{
-    background-image: url('../images/pexels-tima-miroshnichenko-7991436.jpg');
-    background-repeat: no-repeat;
-    background-size: cover;
-    background-attachment: fixed;
-}
-
 .list-container {
     display: flex;
     margin: 20px;
     width: auto;
     height: 240px;
+    padding: 5px;
+    border-radius: 8px;
+    box-shadow: 0 0 12px 8px rgba(0, 0, 0, 0.2);
 }
 
 .addNew {
@@ -25,12 +21,13 @@ body{
     object-fit: cover;
     overflow: hidden;
     width: 160px;
-    height: 240px;
+    height: 230px;
     margin-right: 20px;
+    border-radius: 8px;
 }
 
 .btn-secondary {
-    margin-bottom: 10px;
+    margin: 10px 10px 0px 10px;
 }
 
 .list-container-text {
@@ -40,12 +37,12 @@ body{
 }
 
 .list-container-name {
-    color: white;
+    color: black;
     font-family: Impact;
 }
 
 .list-container-description {
-    color: white;
+    color: black;
     font-family: Georgia;
 }
 

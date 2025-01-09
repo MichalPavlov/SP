@@ -1,15 +1,47 @@
 .movie-and-movie-description {
+    margin: 20px;
     display: flex;
+    flex-direction: column;
+    padding: 5px;
+    border-radius: 8px;
+    box-shadow: 0 0 12px 8px rgba(0, 0, 0, 0.2);
 }
 
-.movie-and-movie-description .movie-picture {
-    width: 40%;
-    height: auto;
+.movie-review {
+    margin: 20px;
+    padding: 5px;
+    border-radius: 8px;
+    box-shadow: 0 0 12px 8px rgba(0, 0, 0, 0.2);
+}
+
+.btn-secondary {
+    margin: 20px;
+}
+
+.movie-image {
+    width: 70%;
     margin-right: 20px;
 }
 
+.movie-description {
+    display: flex;
+    flex-direction: row;
+}
+
+.movie-actors-director {
+    margin: 10px;
+
+}
+
+.movie-picture {
+    width: 100%;
+    height: auto;
+    margin-right: 20px;
+    border-radius: 8px;
+}
+
 .movie-person-text-color {
-    color: darkblue;
+    color: rgb(2, 2, 33);
 }
 
 .bold-text {

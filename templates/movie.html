@@ -8,34 +8,44 @@
 {% block content %}
 
 <div class="movie-and-movie-description">
-    <img src="{{list.movie.picture}}" class="movie-picture" alt="Image">
+
     <div class="movie-description">
-        <h1>{{list.movie.name}}</h1>
-        <p>{{list.movie.description}}</p>
-        <p><span class="bold-text">Genre: </span>{{list.movie.genre}}</p>
-        <p><span class="bold-text">Release date: </span>{{list.movie.release_date}}</p>
-        <p><span class="bold-text">Length: </span>{{list.movie.length}} minutes</p>
+        <div class="movie-image">
+            <img src="{{list.movie.picture}}" class="movie-picture" alt="Image">
+        </div>
+        <div>
+            <h1>{{list.movie.name}}</h1>
+            <p>{{list.movie.description}}</p>
+            <p><span class="bold-text">Genre: </span>{{list.movie.genre}}</p>
+            <p><span class="bold-text">Release date: </span>{{list.movie.release_date}}</p>
+            <p><span class="bold-text">Length: </span>{{list.movie.length}} minutes</p>
+        </div>
+    </div>
+
+    <div class="movie-actors-director">
+        <h3>Director: <a href="{% url 'movie_person' list.movie.director.id %}"><span class="movie-person-text-color">{{list.movie.director.name}}</span></a></h3>
+        <h3>Actors: 
+            {% for actor in list.movie.actors.all %}
+                <a href="{% url 'movie_person' actor.id %}"><span class="movie-person-text-color">{{actor.name}}{% if not forloop.last %}, {% endif %}</span></a>
+            {% endfor %}
+        </h3>
     </div>
 </div>
 
-<h3>Director: <a href="{% url 'movie_person' list.movie.director.id %}"><span class="movie-person-text-color">{{list.movie.director.name}}</span></a></h3>
-<h3>Actors: 
-    {% for actor in list.movie.actors.all %}
-        <a href="{% url 'movie_person' actor.id %}"><span class="movie-person-text-color">{{actor.name}}{% if not forloop.last %}, {% endif %}</span></a>
-    {% endfor %}
-</h3>
-
 <!--buttony z bootstrapu -->
 <div class="add-new-review">
-    <a href = "{% url 'review-create-form' pk=list.movie.id %}" class="btn btn-secondary mt-3">Add new review</a>
+    <a href = "{% url 'review-create-form' pk=list.movie.id %}" class="btn btn-secondary">Add new review</a>
 </div>
 
 {% for review in list.reviews %}
-<p>{{review.comment}}</p>
-<div class="movie-">
-    <div class="update-delete">
-        <a href="{% url 'update-review-form' review.id %}" class="btn btn-secondary">Update</a>
-        <a href="{% url 'delete-review-form' review.id %}" class="btn btn-secondary">Delete</a>
+<div class="movie-review">
+    <p>{{review.user}}</p>
+    <p>{{review.comment}}</p>
+    <div>
+        <div class="update-delete">
+            <a href="{% url 'update-review-form' review.id %}" class="btn btn-secondary">Update</a>
+            <a href="{% url 'delete-review-form' review.id %}" class="btn btn-secondary">Delete</a>
+        </div>
     </div>
 </div>
 {% endfor %}
