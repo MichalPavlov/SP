@@ -4,11 +4,13 @@ from django.shortcuts import render, redirect
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
 from .models import MoviePerson, Movie, Review
-from .forms import MovieForm, ReviewForm, MoviePersonForm
+from .forms import MovieForm, RegistrationForm, ReviewForm, MoviePersonForm
 
 def moderator_required(view_func):
     def wrapper(request, *args, **kwargs):
-        if not request.user.is_authenticated or not request.user.groups.filter(name="Moderator").exists() or not request.user.is_superuser:
+        if not request.user.is_authenticated:
+            return HttpResponseForbidden("You don't have permission to access this page")
+        if not (request.user.groups.filter(name="Moderator").exists() or request.user.is_superuser):
             return HttpResponseForbidden("You don't have permission to access this page")
         return view_func(request, *args, **kwargs)
     return wrapper
@@ -83,32 +85,22 @@ def logout_user(request):
      return redirect('index')
 
 def register(request):
-     error = None
-
-     if request.method == 'POST':
-        username = request.POST.get('username').lower()
-        email = request.POST.get('email')
-        password = request.POST.get('password')
-        password_again = request.POST.get('password-again')
-        
-        #daco s emailom
-
-        if password != password_again:
-            error = "Passwords do not match"
-            return render(request, 'register_page.html', {'error': error})
-        
-        if User.objects.filter(username=username).exists():
-            error = "Username is already taken"
-            return render(request, 'register_page.html', {'error': error})
-        
-        user = User.objects.create_user(username=username, password=password, email=email)
-        return redirect('login')
-     return render(request, 'register_page.html', {'error': error})
+    if request.method == 'POST':
+        form = RegistrationForm(request.POST)
+        if form.is_valid():
+            username = form.cleaned_data.get('username').lower()
+            email = form.cleaned_data.get('email')
+            password = form.cleaned_data.get('password')
+            User.objects.create_user(username=username, email=email, password=password)
+            return redirect('login')
+    else:
+        form = RegistrationForm()
+    return render(request, 'register_page.html', {'form': form})
 
 def movie(request, pk):
     movie = Movie.objects.get(id=pk)
     reviews = Movie.objects.get(id=pk).reviews.all()
-    permission = request.user.is_authenticated and (request.user.groups.filter(name="Moderator").exists() or request.user.is_superuser)
+    permission = request.user.is_authenticated and (request.user.groups.filter(name="Moderator").exists() or request.user.is_superuser or request.user.groups.filter(name="Reviewer").exists())
     list = {
         'movie': movie,
         'reviews': reviews,
@@ -205,7 +197,7 @@ def createReview(request, pk):
 @login_required
 def updateReview(request, pk):
     review = Review.objects.get(id=pk)
-    if request.user != review.user and not (request.user.groups.filter(name="Moderator").exists() or request.user.is_superuser):
+    if request.user != review.user and not (request.user.groups.filter(name="Moderator").exists() or request.user.is_superuser or request.user.groups.filter(name="Reviewer").exists()):
         return HttpResponseForbidden("You don't have permission to access this page")
     
     form = ReviewForm(instance=review)
@@ -219,7 +211,7 @@ def updateReview(request, pk):
 @login_required
 def deleteReview(request, pk):
     review = Review.objects.get(id=pk)
-    if request.user != review.user and not (request.user.groups.filter(name="Moderator").exists() or request.user.is_superuser):
+    if request.user != review.user and not (request.user.groups.filter(name="Moderator").exists() or request.user.is_superuser or request.user.groups.filter(name="Reviewer").exists()):
         return HttpResponseForbidden("You don't have permission to access this page")
     
     if request.method == 'POST':
