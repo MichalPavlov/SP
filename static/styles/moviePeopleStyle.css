@@ -1,0 +1,55 @@
+.person-and-person-description {
+    margin: 20px;
+    display: flex;
+    flex-direction: column;
+    padding: 5px;
+    border-radius: 8px;
+    box-shadow: 0 0 12px 8px rgba(0, 0, 0, 0.2);
+}
+
+.person-image {
+    width: 50%;
+    margin-right: 20px;
+    margin: 2px;
+}
+
+.person-description {
+    display: flex;
+    flex-direction: row;
+}
+
+.person-text {
+    width: 50%;
+}
+
+.person-picture {
+    width: 100%;
+    height: auto;
+    margin-right: 20px;
+    border-radius: 8px;
+}
+
+.movies-participated {
+    margin-top: 10px;
+}
+
+.person-movie-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px;
+    justify-content: flex-start;
+    margin-right: -16px;
+}
+
+.person-movie {
+    flex: 1 1 calc(25% - 16px);
+    max-width: calc(25% - 16px);
+    box-sizing: border-box;
+}
+
+.movie-picture {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 8px;
+}

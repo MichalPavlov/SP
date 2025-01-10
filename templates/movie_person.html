@@ -1,14 +1,57 @@
+<!--pouzite veci z bootstrapu-->
 {% extends 'movie_movie_person_template.html' %}
+{% load static %}
+{% block css %}
+<link rel="stylesheet" href="{% static 'styles/moviePeopleStyle.css' %}">
+{% endblock %}
 
 {% block content %}
 
-<div>
-    <h1>{{list.person.name}}</h1>
-    <img src="{{list.person.picture}}" alt="Image">
-    <h2>{{list.person.description}}</h2>
-    {% for movie in list.movies_played_in %}
-    <p>{{movie.name}}</p>
-    {% endfor %}
+<div class="person-and-person-description">
+    <div class="card">
+        <div class="person-description">
+            <div class="person-image">
+                <img src="{{list.person.picture}}" class="person-picture" alt="Image">
+            </div>
+            <div class="person-text">
+                <h1 class="card-header">{{list.person.name}}</h1>
+                <div class="card-body">
+                    <p>{{list.person.description}}</p>
+                    <p><strong>Birthday: </strong>{{list.person.birth_date}}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="card movies-participated">
+        {% if list.movies_directed %}
+            <h4 class="card-header"><strong>Dirrected movies:</strong></h4>
+            <div class="card-body person-movie-list">
+                {% for movie in list.movies_directed %}
+                <div class="person-movie">
+                    <a href="{% url 'movie' movie.id %}">
+                        <img src="{{movie.picture}}" class="movie-picture" alt="Image">
+                    </a>
+                </div>
+                {% endfor %}
+            </div>
+        {% endif %}
+    </div>
+
+    <div class="card movies-participated">
+        {% if list.movies_played_in %}
+            <h4 class="card-header"><strong>Acted in movies:</strong></h4>
+            <div class="card-body person-movie-list">
+                {% for movie in list.movies_played_in %}
+                <div class="person-movie">
+                    <a href="{% url 'movie' movie.id %}">
+                        <img src="{{movie.picture}}" class="movie-picture" alt="Image">
+                    </a>
+                </div>
+                {% endfor %}
+            </div>
+        {% endif %}
 </div>
+
+
 
 {% endblock %}

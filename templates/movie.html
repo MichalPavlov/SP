@@ -1,3 +1,4 @@
+<!--pouzite veci z bootstrapu-->
 {% extends 'movie_movie_person_template.html' %}
 {% load static %}
 {% block css %}
@@ -9,45 +10,59 @@
 
 <div class="movie-and-movie-description">
 
-    <div class="movie-description">
-        <div class="movie-image">
-            <img src="{{list.movie.picture}}" class="movie-picture" alt="Image">
-        </div>
-        <div>
-            <h1>{{list.movie.name}}</h1>
-            <p>{{list.movie.description}}</p>
-            <p><span class="bold-text">Genre: </span>{{list.movie.genre}}</p>
-            <p><span class="bold-text">Release date: </span>{{list.movie.release_date}}</p>
-            <p><span class="bold-text">Length: </span>{{list.movie.length}} minutes</p>
+    <div class="card">
+        <div class="movie-description">
+            <div class="movie-image">
+                <img src="{{list.movie.picture}}" class="movie-picture" alt="Image">
+            </div>
+            <div class="movie-text">
+                <h1 class="card-header">{{list.movie.name}}</h1>
+                <div class="card-body">
+                    <p>{{list.movie.description}}</p>
+                    <p><span class="bold-text">Genre: </span>{{list.movie.genre}}</p>
+                    <p><span class="bold-text">Release date: </span>{{list.movie.release_date}}</p>
+                    <p><span class="bold-text">Length: </span>{{list.movie.length}} minutes</p>
+                </div>
+            </div>
         </div>
     </div>
-
     <div class="movie-actors-director">
-        <h3>Director: <a href="{% url 'movie_person' list.movie.director.id %}"><span class="movie-person-text-color">{{list.movie.director.name}}</span></a></h3>
-        <h3>Actors: 
+        <h4 class="dirrector-text"><strong>Director: </strong><a href="{% url 'movie_person' list.movie.director.id %}"><span class="movie-person-text-color">{{list.movie.director.name}}</span></a></h4>
+        <h4><strong>Actors: </strong>
             {% for actor in list.movie.actors.all %}
                 <a href="{% url 'movie_person' actor.id %}"><span class="movie-person-text-color">{{actor.name}}{% if not forloop.last %}, {% endif %}</span></a>
             {% endfor %}
-        </h3>
+        </h4>
     </div>
 </div>
 
-<!--buttony z bootstrapu -->
 <div class="add-new-review">
     <a href = "{% url 'review-create-form' pk=list.movie.id %}" class="btn btn-secondary">Add new review</a>
 </div>
 
-{% for review in list.reviews %}
 <div class="movie-review">
-    <p>{{review.user}}</p>
-    <p>{{review.comment}}</p>
-    <div>
-        <div class="update-delete">
-            <a href="{% url 'update-review-form' review.id %}" class="btn btn-secondary">Update</a>
-            <a href="{% url 'delete-review-form' review.id %}" class="btn btn-secondary">Delete</a>
+    <div class="card">
+        <h4 class="card-header">
+            Reviews
+        </h4>
+        {% for review in list.reviews %}
+        <div class="card-body">
+            <p class="review-user"><strong>{{review.user}}</strong>
+                <span class="review-rating"><strong>Rating: </strong>{{review.rating}}%</span>
+            </p>
+            <div class="review-body">
+                <p class="review-comment">{{review.comment}}</p>
+            
+                <div class="update-delete">
+                    <a href="{% url 'update-review-form' review.id %}" class="btn btn-secondary">Update</a>
+                    <a href="{% url 'delete-review-form' review.id %}" class="btn btn-secondary">Delete</a>
+                </div>
+                
+            </div>
         </div>
+        {% if not forloop.last %}<hr></hr>{% endif %}  
+        {% endfor %}
+
     </div>
 </div>
-{% endfor %}
-
 {% endblock %}
