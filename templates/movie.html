@@ -36,6 +36,7 @@
     </div>
 </div>
 
+
 <div class="add-new-review">
     <a href = "{% url 'review-create-form' pk=list.movie.id %}" class="btn btn-secondary">Add new review</a>
 </div>
@@ -53,11 +54,12 @@
             <div class="review-body">
                 <p class="review-comment">{{review.comment}}</p>
             
+                {% if list.permission or request.user == review.user %}
                 <div class="update-delete">
                     <a href="{% url 'update-review-form' review.id %}" class="btn btn-secondary">Update</a>
                     <a href="{% url 'delete-review-form' review.id %}" class="btn btn-secondary">Delete</a>
                 </div>
-                
+                {% endif %}
             </div>
         </div>
         {% if not forloop.last %}<hr></hr>{% endif %}  

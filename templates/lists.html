@@ -20,11 +20,11 @@
         <aside class="part-left"></aside>
         <main class="part-center">
             <!--buttony z bootstrapu -->
-            <div class="addNew">
-                
-                <a href = "{% url list.create_form %}" class="btn btn-secondary">Add new {{list.type}}</a>
-            </div>
-            
+            {% if list.permission %}
+                <div class="addNew">  
+                    <a href = "{% url list.create_form %}" class="btn btn-secondary">Add new {{list.type}}</a>
+                </div>
+            {% endif %}
             {% for content in list.contents %}
             <div class="list-container">
                 <a href="/{{list.url}}/{{content.id}}">
@@ -34,10 +34,12 @@
                     <h3 class="list-container-name">{{content.name}}</h3>
                     <p class="list-container-description">{{content.description}}</p>
                 </div>
-                <div class="update-delete">
-                    <a href="{% url list.update_form content.id %}" class="btn btn-secondary">Update</a>
-                    <a href="{% url list.delete_form content.id %}" class="btn btn-secondary">Delete</a>
-                </div>
+                {% if list.permission %}
+                    <div class="update-delete">
+                        <a href="{% url list.update_form content.id %}" class="btn btn-secondary">Update</a>
+                        <a href="{% url list.delete_form content.id %}" class="btn btn-secondary">Delete</a>
+                    </div>
+                {% endif %}
             </div>
             {% endfor %}
         </main>

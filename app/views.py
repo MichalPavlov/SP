@@ -1,8 +1,17 @@
+from django.http import HttpResponseForbidden
+from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
 from .models import MoviePerson, Movie, Review
 from .forms import MovieForm, ReviewForm, MoviePersonForm
+
+def moderator_required(view_func):
+    def wrapper(request, *args, **kwargs):
+        if not request.user.is_authenticated or not request.user.groups.filter(name="Moderator").exists() or not request.user.is_superuser:
+            return HttpResponseForbidden("You don't have permission to access this page")
+        return view_func(request, *args, **kwargs)
+    return wrapper
 
 
 def index(request):
@@ -13,6 +22,7 @@ def about(request):
 
 def movies_list(request):
     movies = Movie.objects.all()
+    permission = request.user.is_authenticated and (request.user.groups.filter(name="Moderator").exists() or request.user.is_superuser)
     list = {
         'contents': movies,
         'type': 'movie',
@@ -20,11 +30,13 @@ def movies_list(request):
         'create_form': 'movie-create-form',
         'update_form': 'update-movie-form',
         'delete_form': 'delete-movie-form',
+        'permission': permission,
     }
     return render(request, 'lists.html', {'list': list})	
 
 def actors_list(request):
     actors = MoviePerson.objects.filter(actor=True)
+    permission = request.user.is_authenticated and (request.user.groups.filter(name="Moderator").exists() or request.user.is_superuser)
     list = {
         'contents': actors,
         'type': 'actor',
@@ -32,11 +44,13 @@ def actors_list(request):
         'create_form': 'movie_person-create-form',
         'update_form': 'update-movie_person-form',
         'delete_form': 'delete-movie_person-form',
+        'permission': permission,
     }
     return render(request, 'lists.html', {'list': list})
 
 def directors_list(request):
     directors = MoviePerson.objects.filter(director=True)
+    permission = request.user.is_authenticated and (request.user.groups.filter(name="Moderator").exists() or request.user.is_superuser)
     list = {
         'contents': directors,
         'type': 'dirrector',
@@ -44,6 +58,7 @@ def directors_list(request):
         'create_form': 'movie_person-create-form',
         'update_form': 'update-movie_person-form',
         'delete_form': 'delete-movie_person-form',
+        'permission': permission,
     }
     return render(request, 'lists.html', {'list': list})
 
@@ -93,9 +108,11 @@ def register(request):
 def movie(request, pk):
     movie = Movie.objects.get(id=pk)
     reviews = Movie.objects.get(id=pk).reviews.all()
+    permission = request.user.is_authenticated and (request.user.groups.filter(name="Moderator").exists() or request.user.is_superuser)
     list = {
         'movie': movie,
         'reviews': reviews,
+        'permission': permission,
     }
     return render(request, 'movie.html', {'list': list})
 
@@ -110,6 +127,7 @@ def movie_person(request, pk):
     }
     return render(request, 'movie_person.html', {'list': list})
 
+@moderator_required
 def createMovie(request):
     form = MovieForm()
     if request.method == 'POST':
@@ -119,7 +137,7 @@ def createMovie(request):
             return redirect('movies_list')             
     return render(request, 'movie_create_form.html', {'form': form})
 
-
+@moderator_required
 def updateMovie(request, pk):
     movie = Movie.objects.get(id=pk)
     form = MovieForm(instance=movie)
@@ -130,6 +148,7 @@ def updateMovie(request, pk):
              return redirect('movies_list')
     return render(request, 'movie_create_form.html', {'form': form})
 
+@moderator_required
 def deleteMovie(request, pk):
      movie = Movie.objects.get(id=pk)
      if request.method == 'POST':
@@ -137,6 +156,7 @@ def deleteMovie(request, pk):
           return redirect('movies_list')
      return render(request, 'delete.html', {'obj':movie})
     
+@moderator_required
 def createMoviePersonForm(request):
     form = MoviePersonForm()
     if request.method == 'POST':
@@ -145,7 +165,8 @@ def createMoviePersonForm(request):
                 form.save()
                 return redirect('actors_list')             
     return render(request, 'movie_person_create_form.html', {'form': form})
-   
+
+@moderator_required  
 def updateMoviePerson(request, pk):
     moviePerson = MoviePerson.objects.get(id=pk)
     form = MoviePersonForm(instance=moviePerson)
@@ -156,6 +177,7 @@ def updateMoviePerson(request, pk):
              return redirect('actors_list')
     return render(request, 'movie_person_create_form.html', {'form': form})
 
+@moderator_required
 def deleteMoviePerson(request, pk):
     moviePerson = MoviePerson.objects.get(id=pk)
     if request.method == 'POST':
@@ -163,6 +185,7 @@ def deleteMoviePerson(request, pk):
         return redirect('actors_list')
     return render(request, 'delete.html', {'obj':moviePerson})
 
+@login_required
 def createReview(request, pk):
     form = ReviewForm()
     movie = Movie.objects.get(id=pk)
@@ -179,8 +202,12 @@ def createReview(request, pk):
                 form.add_error(None, 'You have already submited a review for this movie')
     return render(request, 'review_create_form.html', {'form': form, 'movie': movie})
 
+@login_required
 def updateReview(request, pk):
     review = Review.objects.get(id=pk)
+    if request.user != review.user and not (request.user.groups.filter(name="Moderator").exists() or request.user.is_superuser):
+        return HttpResponseForbidden("You don't have permission to access this page")
+    
     form = ReviewForm(instance=review)
     if request.method == 'POST':
         form = ReviewForm(request.POST, instance=review)
@@ -189,8 +216,12 @@ def updateReview(request, pk):
             return redirect('movie', pk=review.movie.id)
     return render(request, 'review_create_form.html', {'form': form, 'review': review})
 
+@login_required
 def deleteReview(request, pk):
     review = Review.objects.get(id=pk)
+    if request.user != review.user and not (request.user.groups.filter(name="Moderator").exists() or request.user.is_superuser):
+        return HttpResponseForbidden("You don't have permission to access this page")
+    
     if request.method == 'POST':
         review.delete()
         return redirect('movie', pk=review.movie.id)
