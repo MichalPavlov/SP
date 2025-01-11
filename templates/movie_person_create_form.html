@@ -31,7 +31,64 @@
         </div> 
        
     </div>
-        <button type="submit" class="btn btn-primary mt-2 ms-5 me-1 mb-2">Submit</button>
-        <a href="{% url 'actors_list' %}" class="btn btn-secondary mt-2 mb-2">Return</a>
+    <button type="submit" class="btn btn-primary mt-2 ms-5 me-1 mb-2">Submit</button>
+    <a href="{% url 'actors_list' %}" class="btn btn-secondary mt-2 mb-2">Return</a>
 </form>
+{% endblock %}
+
+{% block js %}
+<script>
+    document.getElementById("createForm").addEventListener("submit", function(event) {
+        let isValid = true;
+
+        document.querySelectorAll('.text-danger').forEach(errorDiv => errorDiv.textContent = '');
+
+        const form = event.target;
+        const nameField = form.elements["name"];
+        const pictureField = form.elements["picture"];
+        const birthDateField = form.elements["birth_date"];
+        const directorField = form.elements["director"];
+        const actorField = form.elements["actor"];
+
+        if (!nameField.value.trim()) {
+            displayError(nameField, "Name cannot be empty");
+            isValid = false;
+        }
+
+        if (pictureField.value) {
+            try {
+                new URL(pictureField.value);
+            } catch (e) {
+                displayError(pictureField, "Invalid picture URL");
+                isValid = false;
+            }
+        }
+
+        if (birthDateField.value) {
+            const birthDate = new Date(birthDateField.value);
+            const today = new Date();
+            if (birthDate > today) {
+                displayError(birthDateField, "Birth date cannot be in the future");
+                isValid = false;
+            }
+        }
+
+        if (!directorField.checked && !actorField.checked) {
+            displayError(directorField, "Person must be a director or an actor");
+            isValid = false;
+        }
+
+        if (!isValid) {
+            event.preventDefault();
+        }
+
+    });
+
+    function displayError(field, message) {
+        const errorDiv = document.createElement("div");
+        errorDiv.className = "text-danger";
+        errorDiv.textContent = message;
+        field.parentElement.appendChild(errorDiv);
+    }
+</script>
 {% endblock %}
