@@ -1,6 +1,5 @@
 from django.db import models
 from django.contrib.auth.models import User
-from django.forms import ValidationError
 
 class MoviePerson(models.Model):
     name = models.CharField(max_length=100)
@@ -45,24 +44,3 @@ class Review(models.Model):
     def __str__(self):
         return f'{self.movie.name} - {self.user.username}'
     
-    #def like_score(self):
-    #    return self.reviewvote_set.filter(vote=ReviewVote.LIKE).count() - self.reviewvote_set.filter(vote=ReviewVote.DISLIKE).count()
-    
-class ReviewVote(models.Model):
-    LIKE = 1
-    DISLIKE = -1
-
-    VOTE_CHOICES = [
-        (LIKE, 'Like'),
-        (DISLIKE, 'Dislike')
-    ]
-
-    review = models.ForeignKey(Review, on_delete=models.CASCADE, related_name='votes')
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
-    vote = models.IntegerField(choices=VOTE_CHOICES)
-
-    class Meta:
-        unique_together = ['review', 'user']
-
-    def __str__(self):
-        return f'{self.review.movie.name} - {self.review.user.username} - {self.vote}'

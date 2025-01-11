@@ -1,7 +1,16 @@
 {% extends 'create_form.html' %}
 
 {% block content %}
-{{form.as_p}}
-<input type="submit" value="Submit">
-<a href="{{request.META.HTTP_REFERER}}">Return</a>
+<!--bootstrap-->
+<div class="card mt-3 ms-5 me-5">
+    <div class="card-header">
+        <h3>Movie Person</h3>
+    </div>
+    <div class="card-body">
+        {{form.as_p}}
+    </div> 
+</div>
+    <button type="submit" class="btn btn-primary mt-2 ms-5 me-1">Submit</button>
+    <a href="{{request.META.HTTP_REFERER}}" class="btn btn-secondary mt-2">Return</a>
+
 {% endblock %}

@@ -15,11 +15,25 @@ class MoviePersonForm(ModelForm):
     class Meta:
         model = MoviePerson
         fields = '__all__'
+
+        widgets = { 
+            'name': forms.TextInput(attrs={'class': 'form-control'}),
+            'picture': forms.URLInput(attrs={'class': 'form-control'}),
+            'description': forms.Textarea(attrs={'class': 'form-control'}),
+            'birth_date': forms.DateInput(attrs={'class': 'form-control', 'type': 'date'}),
+            'director': forms.CheckboxInput(attrs={'class': 'form-check-input'}),	
+            'actor': forms.CheckboxInput(attrs={'class': 'form-check-input'}),
+        }
         
 class ReviewForm(ModelForm):
     class Meta:
         model = Review
         fields = ['rating', 'comment']
+
+        widgets = {
+            'rating': forms.NumberInput(attrs={'class': 'form-control'}),
+            'comment': forms.Textarea(attrs={'class': 'form-control'}),
+        }
 
 
 class RegistrationForm(forms.Form):

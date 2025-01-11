@@ -13,15 +13,22 @@
     <div class="wrapper">
 
         {% include 'navbar.html '%}
-    
         <div class="part">
             <aside class="part-left"></aside>
             <main class="part-center">
                 <form method="POST" action=".">
                     {% csrf_token %}
-                    <p>Do you realy want to delete the "{{obj}}"?</p>
-                    <a href="{{request.META.HTTP_REFERER}}">Return</a>
-                    <input type="submit" value="Confirm">
+                    <!--bootstrap-->
+                    <div class="card mt-3 ms-5 me-5">
+                        <div class="card-header">
+                            <h3>Delete</h3>
+                        </div>
+                        <div class="card-body">
+                            <p>Do you realy want to delete the "{{obj}}"?</p>
+                        </div>
+                    </div>
+                    <a href="{{request.META.HTTP_REFERER}}" class="btn btn-secondary mt-2 ms-5 me-1">Return</a>
+                    <button type="submit" class="btn btn-danger mt-2">Delete</button>
                 </form>
             </main>
             <aside class="part-right"></aside>
