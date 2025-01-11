@@ -1,7 +1,11 @@
 {% extends 'create_form.html' %}
 
 {% block content %}
-{{form.as_p}}
-<input type="submit" value="Submit">
-<a href="{{request.META.HTTP_REFERER}}">Return</a>
+<form id="createForm" method="POST" action="." enctype="multipart/form-data">
+    {% csrf_token %}
+    {{form.as_p}}
+    <input type="submit" value="Submit">
+    <a href="{{request.META.HTTP_REFERER}}">Return</a> 
+</form>
+
 {% endblock %}

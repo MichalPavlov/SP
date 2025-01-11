@@ -17,12 +17,9 @@
         <div class="part">
             <aside class="part-left"></aside>
             <main class="part-center">
-                <form id="createForm" method="POST" action=".">
-                    {% csrf_token %}
-                    {% block content %}
-                    
-                    {% endblock %}
-                </form>
+                {% block content %}
+
+                {% endblock %}
             </main>
             <aside class="part-right"></aside>
         </div>

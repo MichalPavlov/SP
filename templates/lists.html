@@ -28,7 +28,11 @@
             {% for content in list.contents %}
             <div class="list-container">
                 <a href="/{{list.url}}/{{content.id}}">
-                    <img class="list-container-image" alt="Image" src="{{content.picture}}">  
+                    {% if list.type == 'movie' %}
+                        <img class="list-container-image" alt="Image" src="{{content.picture.url}}">  
+                    {% else %}
+                        <img class="list-container-image" alt="Image" src="{{content.picture}}"> 
+                    {% endif %}
                 </a>
                 <div class="list-container-text">
                     <h3 class="list-container-name">{{content.name}}</h3>
