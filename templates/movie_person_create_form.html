@@ -10,10 +10,28 @@
             <h3>Movie Person</h3>
         </div>
         <div class="card-body">
-            {{form.as_p}}
+            {% for error in form.non_field_errors %}
+                <div class="text-danger">
+                    {{error}}
+                </div>
+            {% endfor %}
+            {% for field in form %}
+                <div class="mb-3">
+                    {{field.label_tag}}
+                    {{field}}
+                    {% if field.errors %}
+                        <div class="text-danger">
+                            {% for error in field.errors %}
+                                <small>{{error}}</small>
+                            {% endfor %}
+                        </div>
+                    {% endif %}
+                </div>
+            {% endfor %}
         </div> 
+       
     </div>
-        <button type="submit" class="btn btn-primary mt-2 ms-5 me-1">Submit</button>
-        <a href="{{request.META.HTTP_REFERER}}" class="btn btn-secondary mt-2">Return</a>
+        <button type="submit" class="btn btn-primary mt-2 ms-5 me-1 mb-2">Submit</button>
+        <a href="{% url 'actors_list' %}" class="btn btn-secondary mt-2 mb-2">Return</a>
 </form>
 {% endblock %}

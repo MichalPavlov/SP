@@ -3,7 +3,7 @@ from django.contrib.auth.models import User
 
 class MoviePerson(models.Model):
     name = models.CharField(max_length=100)
-    picture = models.URLField(max_length=500, null=True, blank=True)
+    picture = models.URLField(max_length=500)
     description = models.TextField(max_length=500, null=True, blank=True)
     birth_date = models.DateField(null=True, blank=True)
     director = models.BooleanField(default=False)
@@ -22,8 +22,8 @@ class Movie(models.Model):
     description = models.TextField(max_length=500, null=True, blank=True)
     release_date = models.DateField()
     length = models.IntegerField(null=True, blank=True)
-    director = models.ForeignKey(MoviePerson, on_delete=models.CASCADE, null=True, blank=True, related_name='movies_played_in')
-    actors = models.ManyToManyField(MoviePerson, blank=True, related_name='movies_directed')
+    director = models.ForeignKey(MoviePerson, on_delete=models.CASCADE, null=True, blank=True, related_name='movies_directed')
+    actors = models.ManyToManyField(MoviePerson, blank=True, related_name='movies_played_in')
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
 
@@ -34,7 +34,7 @@ class Review(models.Model):
     movie = models.ForeignKey(Movie, on_delete=models.CASCADE, related_name='reviews')
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     rating = models.IntegerField()
-    comment = models.TextField()
+    comment = models.TextField(max_length=10000)
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
 

@@ -134,7 +134,7 @@ def updateMovie(request, pk):
     movie = Movie.objects.get(id=pk)
     form = MovieForm(instance=movie)
     if request.method == 'POST':
-        form = MovieForm(request.POST, instance=movie)
+        form = MovieForm(request.POST, request.FILES, instance=movie)
         if form.is_valid():
              form.save()
              return redirect('movies_list')

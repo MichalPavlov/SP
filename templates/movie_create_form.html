@@ -3,9 +3,34 @@
 {% block content %}
 <form id="createForm" method="POST" action="." enctype="multipart/form-data">
     {% csrf_token %}
-    {{form.as_p}}
-    <input type="submit" value="Submit">
-    <a href="{{request.META.HTTP_REFERER}}">Return</a> 
+    <!--bootstrap-->
+    <div class="card mt-3 ms-5 me-5">
+        <div class="card-header">
+            <h3>Movie</h3>
+        </div>
+        <div class="card-body">
+            {% for error in form.non_field_errors %}
+                <div class="text-danger">
+                    {{error}}
+                </div>
+            {% endfor %}
+            {% for field in form %}
+            <div class="mb-3">
+                {{field.label_tag}}
+                {{field}}
+                {% if field.errors %}
+                    <div class="text-danger">
+                        {% for error in field.errors %}
+                            <small>{{error}}</small>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+            </div>
+        {% endfor %}
+        </div> 
+    </div>
+        <button type="submit" class="btn btn-primary mt-2 ms-5 me-1 mb-2">Submit</button>
+        <a href="{% url 'movies_list' %}" class="btn btn-secondary mt-2 mb-2">Return</a>
 </form>
 
 {% endblock %}
