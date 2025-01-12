@@ -5,6 +5,8 @@ from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
 from .models import MoviePerson, Movie, Review
 from .forms import MovieForm, RegistrationForm, ReviewForm, MoviePersonForm
+from django.http import JsonResponse
+from django.urls import reverse
 
 def moderator_required(view_func):
     def wrapper(request, *args, **kwargs):
@@ -107,6 +109,24 @@ def movie(request, pk):
         'permission': permission,
     }
     return render(request, 'movie.html', {'list': list})
+
+def get_reviews(request, pk):
+    reviews = Movie.objects.get(id=pk).reviews.all()
+    review_list = []
+    for review in reviews:
+        permission = request.user.is_authenticated and (request.user.groups.filter(name="Moderator").exists() or
+                     request.user.is_superuser or request.user.groups.filter(name="Reviewer").exists() or
+                     request.user == review.user)
+        review_list.append({
+            'user': review.user.username,
+            'rating': review.rating,
+            'comment': review.comment,
+            'permission': permission,
+            'update_url': reverse('update-review-form', kwargs={'pk': review.id}),
+            'delete_url': reverse('delete-review-form', kwargs={'pk': review.id}),
+        })
+    return JsonResponse({'reviews': review_list})
+
 
 def movie_person(request, pk):
     person = MoviePerson.objects.get(id=pk)

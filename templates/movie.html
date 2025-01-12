@@ -46,25 +46,61 @@
         <h4 class="card-header">
             Reviews
         </h4>
-        {% for review in list.reviews %}
-        <div class="card-body">
-            <p class="review-user"><strong>{{review.user}}</strong>
-                <span class="review-rating"><strong>Rating: </strong>{{review.rating}}%</span>
-            </p>
-            <div class="review-body">
-                <p class="review-comment">{{review.comment}}</p>
-            
-                {% if list.permission or request.user == review.user %}
-                <div class="update-delete">
-                    <a href="{% url 'update-review-form' review.id %}" class="btn btn-secondary">Update</a>
-                    <a href="{% url 'delete-review-form' review.id %}" class="btn btn-secondary">Delete</a>
-                </div>
-                {% endif %}
-            </div>
-        </div>
-        {% if not forloop.last %}<hr></hr>{% endif %}  
-        {% endfor %}
+        <div id="ajax-data">
 
+        </div>
     </div>
 </div>
+{% endblock %}
+
+
+{% block js %}
+<script>
+    $(document).ready(function() {
+
+        function loadReviews(){
+            $.ajax({
+                type:'GET',
+                url : "{% url 'get_reviews' list.movie.id %}",
+            
+                success: function(response) {
+                    
+                    $("#ajax-data").empty();
+                    for (var i = 0; i < response.reviews.length; i++) {
+                        var to_write =
+                        '<div class="card-body">' +
+                            '<p class="review-user"><strong>' + response.reviews[i].user + "</strong>" +
+                                '<span class="review-rating"><strong>Rating: </strong>' + response.reviews[i].rating + "%" +
+                            "</p>" + 
+                            '<div class="review-body">'+
+                                '<p class="review-comment">' + response.reviews[i].comment + "</p>"
+
+                            if (response.reviews[i].permission) {
+                                to_write +=
+                                '<div class="update-delete">' +
+                                    '<a href="' + response.reviews[i].update_url + '"' + 'class="btn btn-secondary">Update</a>' +
+                                    '<a href="' + response.reviews[i].delete_url + '"' + 'class="btn btn-secondary">Delete</a>' +
+                                '</div>'
+                            }
+                            to_write += '</div>' +
+                        "</div>";
+                        if (i + 1 < response.reviews.length)
+                        {
+                            to_write += "<hr>";
+                        }
+                        $("#ajax-data").append(to_write);
+                    }
+
+                },
+                error: function(response){
+                    alert("Error");
+                }
+            });
+        }
+
+        loadReviews();
+        setInterval(loadReviews, 1500);
+
+    });
+</script>
 {% endblock %}
