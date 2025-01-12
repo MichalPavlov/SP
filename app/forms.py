@@ -81,12 +81,12 @@ class MoviePersonForm(ModelForm):
         fields = '__all__'
 
         widgets = { 
-            'name': forms.TextInput(attrs={'class': 'form-control'}),
-            'picture': forms.URLInput(attrs={'class': 'form-control'}),
-            'description': forms.Textarea(attrs={'class': 'form-control'}),
-            'birth_date': forms.DateInput(attrs={'class': 'form-control', 'type': 'date'}),
-            'director': forms.CheckboxInput(attrs={'class': 'form-check-input'}),	
-            'actor': forms.CheckboxInput(attrs={'class': 'form-check-input'}),
+            'name': forms.TextInput(attrs={'class': 'form-control', 'id': 'name'}),
+            'picture': forms.URLInput(attrs={'class': 'form-control', 'id': 'picture'}),
+            'description': forms.Textarea(attrs={'class': 'form-control', 'id': 'description'}),
+            'birth_date': forms.DateInput(attrs={'class': 'form-control', 'type': 'date', 'id': 'birth_date'}),
+            'director': forms.CheckboxInput(attrs={'class': 'form-check-input', 'id': 'director'}),	
+            'actor': forms.CheckboxInput(attrs={'class': 'form-check-input', 'id': 'actor'}),
         }
         
     def clean_name(self):

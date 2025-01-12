@@ -2,7 +2,7 @@
 
 {% block content %}
 
-<form id="createForm" method="POST" action=".">
+<form id="createForm" method="POST">
     {% csrf_token %}
     <!--bootstrap-->
     <div class="card mt-3 ms-5 me-5">
@@ -91,4 +91,30 @@
         field.parentElement.appendChild(errorDiv);
     }
 </script>
+
+{% if not update %}
+<script>
+    $(document).on('submit', '#createForm', function(event){
+        event.preventDefault();
+
+        $.ajax({
+            type:'POST',
+            url: "{% url 'movie_person-create-form' %}",
+            data:{
+                name:$('#name').val(),
+                picture:$('#picture').val(),
+                description:$('#description').val(),
+                birth_date:$('#birth_date').val(),
+                director:$('#director').val(),
+                actor:$('#actor').val(),
+                csrfmiddlewaretoken:$('input[name=csrfmiddlewaretoken]').val(),
+            },
+            success: function(data) {
+                alert(data);
+            }
+        })
+    });
+
+</script>
+{% endif %}
 {% endblock %}

@@ -5,7 +5,7 @@ from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
 from .models import MoviePerson, Movie, Review
 from .forms import MovieForm, RegistrationForm, ReviewForm, MoviePersonForm
-from django.http import JsonResponse
+from django.http import JsonResponse, HttpResponse
 from django.urls import reverse
 
 def moderator_required(view_func):
@@ -175,8 +175,10 @@ def createMoviePersonForm(request):
             form = MoviePersonForm(request.POST)
             if form.is_valid():
                 form.save()
-                return redirect('actors_list')             
-    return render(request, 'movie_person_create_form.html', {'form': form})
+                return HttpResponse('New movie person create successfully')        
+            else:
+                return HttpResponse('There is an error in the formular')  
+    return render(request, 'movie_person_create_form.html', {'form': form, 'update': False})
 
 @moderator_required  
 def updateMoviePerson(request, pk):
@@ -186,15 +188,20 @@ def updateMoviePerson(request, pk):
         form = MoviePersonForm(request.POST, instance=moviePerson)
         if form.is_valid():
              form.save()
-             return redirect('actors_list')
-    return render(request, 'movie_person_create_form.html', {'form': form})
+             if moviePerson.actor:
+                return redirect('actors_list')
+             return redirect('directors_list')
+    return render(request, 'movie_person_create_form.html', {'form': form, 'update': True})
 
 @moderator_required
 def deleteMoviePerson(request, pk):
     moviePerson = MoviePerson.objects.get(id=pk)
     if request.method == 'POST':
         moviePerson.delete()
-        return redirect('actors_list')
+        if moviePerson.actor:
+            return redirect('actors_list')
+        else:
+            return redirect('directors_list')
     return render(request, 'delete.html', {'obj':moviePerson})
 
 @login_required
