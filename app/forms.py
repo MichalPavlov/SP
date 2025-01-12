@@ -50,6 +50,12 @@ class MovieForm(ModelForm):
             raise forms.ValidationError('Invalid file format')
         return picture
     
+    def clean_description(self):
+        description = self.cleaned_data.get('description')
+        if not description.strip():
+            raise forms.ValidationError('Description cannot be empty')
+        return description
+    
     def clean_release_date(self):
         release_date = self.cleaned_data.get('release_date')
         if release_date > timezone.now().date():
@@ -105,6 +111,12 @@ class MoviePersonForm(ModelForm):
 
         return picture
         
+    def clean_description(self):
+        description = self.cleaned_data.get('description')
+        if not description.strip():
+            raise forms.ValidationError('Description cannot be empty')
+        return description
+
     def clean_birth_date(self):
         birth_date = self.cleaned_data.get('birth_date')
         if birth_date and birth_date > date.today():

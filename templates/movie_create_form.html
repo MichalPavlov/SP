@@ -34,3 +34,87 @@
 </form>
 
 {% endblock %}
+
+{% block js %}
+<script>
+    document.getElementById("createForm").addEventListener("submit", function(event) {
+        let isValid = true;
+        document.querySelectorAll('.text-danger').forEach(errorDiv => errorDiv.remove());
+        
+        const form = event.target;
+        const nameField = form.elements["name"];
+        const pictureField = form.elements["picture"];
+        const genreField = form.elements["genre"];
+        const descriptionField = form.elements["description"];
+        const releaseDateField = form.elements["release_date"];
+        const lengthField = form.elements["length"];
+        
+        if (!nameField.value.trim()) {
+            const errorDiv = createErrorDiv("Name cannot be empty");
+            nameField.parentElement.appendChild(errorDiv);
+            isValid = false;
+        } else if (nameField.value.trim().length < 2) {
+            const errorDiv = createErrorDiv("Name must be at least 2 characters long");
+            nameField.parentElement.appendChild(errorDiv);
+            isValid = false;
+        }
+
+        if (pictureField.files.length > 0) {
+            const picture = pictureField.files[0];
+            const validFormats = ['jpg', 'jpeg', 'png'];
+            const format = picture.name.split('.').pop().toLowerCase();
+
+            if (!validFormats.includes(format)) {
+                const errorDiv = createErrorDiv("Invalid file format");
+                pictureField.parentElement.appendChild(errorDiv);
+                isValid = false;
+            }
+
+            if (picture.size > 5 * 1024 * 1024) {
+                const errorDiv = createErrorDiv("Image file cannot be larger than 5MB");
+                pictureField.parentElement.appendChild(errorDiv);
+                isValid = false;
+            }
+        }
+
+        if (!descriptionField.value.trim()) {
+            const errorDiv = createErrorDiv("Description cannot be empty");
+            descriptionField.parentElement.appendChild(errorDiv);
+            isValid = false;
+        }
+
+        if (releaseDateField.value) {
+            const releaseDate = new Date(releaseDateField.value);
+            const today = new Date();
+            if (releaseDate > today) {
+                const errorDiv = createErrorDiv("Invalid date");
+                releaseDateField.parentElement.appendChild(errorDiv);
+                isValid = false;
+            }
+        }
+        
+        const length = parseInt(lengthField.value);
+
+        if (length < 1) {
+            const errorDiv = createErrorDiv("Length must be at least 1 minute");
+            lengthField.parentElement.appendChild(errorDiv);
+            isValid = false;
+        } else if (length > 1000) {
+            const errorDiv = createErrorDiv("Length must be at most 1000 minutes");
+            lengthField.parentElement.appendChild(errorDiv);
+            isValid = false;
+        }
+
+        if (!isValid) {
+            event.preventDefault();
+        }
+    });
+
+    function createErrorDiv(message) {
+        const errorDiv = document.createElement("div");
+        errorDiv.className = "text-danger";
+        errorDiv.textContent = message;
+        return errorDiv;
+    }
+</script>
+{% endblock %}

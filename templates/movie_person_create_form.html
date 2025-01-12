@@ -68,7 +68,7 @@
             const birthDate = new Date(birthDateField.value);
             const today = new Date();
             if (birthDate > today) {
-                displayError(birthDateField, "Birth date cannot be in the future");
+                displayError(birthDateField, "Invalid birth date");
                 isValid = false;
             }
         }

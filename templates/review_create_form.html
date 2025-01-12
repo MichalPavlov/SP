@@ -39,3 +39,44 @@
     {% endif %}
 </form>
 {% endblock %}
+
+{% block js %}
+<script>
+    document.getElementById("createForm").addEventListener("submit", function(event) {
+        let isValid = true;
+        document.querySelectorAll('.text-danger').forEach(errorDiv => errorDiv.remove());
+
+        const form = event.target;
+        const ratingField = form.elements["rating"];
+        const commentField = form.elements["comment"];
+
+        if (!ratingField.value.trim()) {
+            const errorDiv = createErrorDiv("Rating is required");
+            ratingField.parentElement.appendChild(errorDiv);
+            isValid = false;
+        } else if (!Number.isInteger(Number(ratingField.value)) || ratingField.value < 0 || ratingField.value > 100) {
+            const errorDiv = createErrorDiv("The value must be between 0 and 100");
+            ratingField.parentElement.appendChild(errorDiv);
+            isValid = false;
+        }
+
+        if (!commentField.value.trim()) {
+            const errorDiv = createErrorDiv("Comment cannot be empty");
+            commentField.parentElement.appendChild(errorDiv);
+            isValid = false;
+        }
+        
+        if (!isValid) {
+            event.preventDefault();
+        }
+    });
+
+    function createErrorDiv(message) {
+        const errorDiv = document.createElement("div");
+        errorDiv.className = "text-danger";
+        errorDiv.textContent = message;
+        return errorDiv;
+    }
+        
+</script>
+{% endblock %}
