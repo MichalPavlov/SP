@@ -1,3 +1,7 @@
+body {
+    background-image: url('../images/istockphoto-1263322369-1024x1024.jpg');
+}
+
 .wrapper {
     display: flex;
     flex-direction: column;
