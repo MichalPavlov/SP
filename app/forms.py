@@ -117,7 +117,7 @@ class MoviePersonForm(ModelForm):
         actor = cleaned_data.get('actor')
 
         if not director and not actor:
-            raise forms.ValidationError('Person must be director or actor')
+            raise forms.ValidationError('Person must be a director or an actor')
         return cleaned_data
 
 class ReviewForm(ModelForm):
