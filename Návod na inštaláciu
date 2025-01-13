@@ -1,5 +1,5 @@
 1. Potrebujete mať nainštalovaný Python na svojom zariadení (verzia 3.x)
-2. Nakopírujte tento repozitár z GitHub-u
+2. Nakopírujte si tento repozitár z GitHub-u
 3. Je odporúčané používať virtual environment na izolovanie závislosti, ak ho nemáte nainštalovaný, tak do konzoly:
   python -m venv env
   env\Scripts\activate //pre Windows
