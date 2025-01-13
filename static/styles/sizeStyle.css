@@ -2,6 +2,14 @@ body {
     background-image: url('../images/istockphoto-1263322369-1024x1024.jpg');
 }
 
+.btn {
+    box-shadow: 0 0 12px 8px rgba(0, 0, 0, 0.2);
+}
+
+.card {
+    box-shadow: 0 0 12px 8px rgba(0, 0, 0, 0.2);
+}
+
 .wrapper {
     display: flex;
     flex-direction: column;
@@ -19,6 +27,7 @@ body {
 }
 .part-center {
     width: auto;
+    max-width: 100%;
     flex: 1;
 }
 .part-right {
@@ -45,6 +54,7 @@ body {
     }
     .part-center {
         width: auto;
+        max-width: 60%;
         flex: 1;
     }
     .part-right {
