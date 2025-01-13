@@ -9,6 +9,10 @@
     box-shadow: 0 0 12px 8px rgba(0, 0, 0, 0.2);
 }
 
+.form-control {
+    box-shadow: 0 0 12px 8px rgba(0, 0, 0, 0.7);
+}
+
 .addNew {
     margin: 20px;
 }

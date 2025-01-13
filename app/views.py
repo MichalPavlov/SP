@@ -25,7 +25,8 @@ def about(request):
     return render(request, 'about.html')
 
 def movies_list(request):
-    movies = Movie.objects.all()
+    searched = request.GET.get('searched') if request.GET.get('searched') != None else ''
+    movies = Movie.objects.filter(name__icontains=searched)
     permission = request.user.is_authenticated and (request.user.groups.filter(name="Moderator").exists() or request.user.is_superuser)
     list = {
         'contents': movies,
@@ -39,7 +40,8 @@ def movies_list(request):
     return render(request, 'lists.html', {'list': list})	
 
 def actors_list(request):
-    actors = MoviePerson.objects.filter(actor=True)
+    searched = request.GET.get('searched') if request.GET.get('searched') != None else ''
+    actors = MoviePerson.objects.filter(actor=True, name__icontains=searched)
     permission = request.user.is_authenticated and (request.user.groups.filter(name="Moderator").exists() or request.user.is_superuser)
     list = {
         'contents': actors,
@@ -53,7 +55,8 @@ def actors_list(request):
     return render(request, 'lists.html', {'list': list})
 
 def directors_list(request):
-    directors = MoviePerson.objects.filter(director=True)
+    searched = request.GET.get('searched') if request.GET.get('searched') != None else ''
+    directors = MoviePerson.objects.filter(director=True, name__icontains=searched)
     permission = request.user.is_authenticated and (request.user.groups.filter(name="Moderator").exists() or request.user.is_superuser)
     list = {
         'contents': directors,

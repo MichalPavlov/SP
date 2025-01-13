@@ -20,6 +20,19 @@
         <aside class="part-left"></aside>
         <main class="part-center">
             <!--buttony z bootstrapu-->
+            {% if list.type == 'movie' %}
+                <form method="GET" action="{% url 'movies_list' %}">
+                    <input type="text" name="searched" placeholder="Search movies" class="form-control w-auto mt-3 ms-4"/>
+                </form>
+            {% elif list.type == 'actor' %}
+                <form method="GET" action="{% url 'actors_list' %}">
+                    <input type="text" name="searched" placeholder="Search actors" class="form-control w-auto mt-3 ms-4"/>
+                </form>
+            {% else %}
+                <form method="GET" action="{% url 'directors_list' %}">
+                    <input type="text" name="searched" placeholder="Search directors" class="form-control w-auto mt-3 ms-4"/>
+                </form>
+            {% endif %}
             {% if list.permission %}
                 <div class="addNew">  
                     <a href = "{% url list.create_form %}" class="btn btn-secondary">Add new {{list.type}}</a>
