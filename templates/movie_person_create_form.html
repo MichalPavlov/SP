@@ -105,8 +105,8 @@
                 picture:$('#picture').val(),
                 description:$('#description').val(),
                 birth_date:$('#birth_date').val(),
-                director:$('#director').val(),
-                actor:$('#actor').val(),
+                director:$('#director').prop('checked'),
+                actor:$('#actor').prop('checked'),
                 csrfmiddlewaretoken:$('input[name=csrfmiddlewaretoken]').val(),
             },
             success: function(data) {
