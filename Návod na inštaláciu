@@ -1,0 +1,14 @@
+1. Potrebujete mať nainštalovaný Python na svojom zariadení (verzia 3.x)
+2. Nakopírujte repozitár z GitHub-u
+3. Je odporúčané používať virtual environment na izolovanie závislosti, ak ho nemáte nainštalovaný, tak do konzoly:
+  python -m venv env
+  env\Scripts\activate //pre Windows
+  source env/bin/activate //pre Linux alebo macOS
+4. Potrebujete nainštalovať potrebné závislosti:
+  Django==5.1.3
+  pillow==11.1.0
+  requests==2.32.3
+5. Nastavte databázu:
+  python manage.py migrate
+6. Spustite aplikáciu lokálne:
+  python manage.py runserver
