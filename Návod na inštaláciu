@@ -14,4 +14,4 @@
   python manage.py migrate
 6. Spustite aplikáciu lokálne:
   python manage.py runserver
-7. Otvoríte webový prehliadač a prejdete na adresu http://127.0.0.1:8000/
+7. Otvoríte webový prehliadač a prejdite na adresu http://127.0.0.1:8000/ kde sa Vám táto webová aplikácia zobrazí
