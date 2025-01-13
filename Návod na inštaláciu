@@ -8,6 +8,8 @@
   Django==5.1.3
   pillow==11.1.0
   requests==2.32.3
+  pip install Django==5.1.3 pillow==11.1.0 requests==2.32.3
+  (ak napíšete do konzoly "pip freeze", tak sa Vám zobrazia nainštalované balíčky)
 5. Nastavte databázu:
   python manage.py migrate
 6. Spustite aplikáciu lokálne:
